@@ -20,6 +20,8 @@ frontend-build:
     DOCKER_HOST: tcp://docker:2375
     privileged: true
   before_script:
+    - curl -fsSL https://get.docker.com -o get-docker.sh
+    - sh get-docker.sh
     - docker --version
   script:
     - echo "Building frontend Docker image..."
@@ -35,6 +37,8 @@ backend-build:
   variables:
     DOCKER_HOST: tcp://docker:2375
   before_script:
+    - curl -fsSL https://get.docker.com -o get-docker.sh
+    - sh get-docker.sh
     - docker --version
   script:
     - echo "Building backend Docker image..."
