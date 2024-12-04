@@ -16,6 +16,8 @@ frontend-build:
   image: node:20
   services:
     - docker:dind
+  variables:
+    DOCKER_HOST: tcp://docker:2375
   script:
     - echo "Building frontend Docker image..."
     - docker build -t app-frontend ./frontend
@@ -27,6 +29,8 @@ backend-build:
   image: maven:3.9.5-eclipse-temurin-21
   services:
     - docker:dind
+  variables:
+    DOCKER_HOST: tcp://docker:2375
   script:
     - echo "Building backend Docker image..."
     - docker build -t app-backend ./backend2
