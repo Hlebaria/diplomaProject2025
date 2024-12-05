@@ -13,15 +13,13 @@ prologue-job:
 
 frontend-build:
   stage: build
-  image: node:20
+  image: docker:27.0.0
   services:
     - docker:dind
   variables:
     DOCKER_HOST: tcp://docker:2375
     privileged: true
   before_script:
-    - curl -fsSL https://get.docker.com -o get-docker.sh
-    - sh get-docker.sh
     - docker --version
   script:
     - echo "Building frontend Docker image..."
@@ -31,14 +29,12 @@ frontend-build:
 
 backend-build:
   stage: build
-  image: maven:3.9.5-eclipse-temurin-21
+  image: docker:27.0.0
   services:
     - docker:dind
   variables:
     DOCKER_HOST: tcp://docker:2375
   before_script:
-    - curl -fsSL https://get.docker.com -o get-docker.sh
-    - sh get-docker.sh
     - docker --version
   script:
     - echo "Building backend Docker image..."
