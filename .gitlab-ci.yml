@@ -15,8 +15,7 @@ frontend-build:
   stage: build
   image: docker:latest
   services:
-    - name: docker:23.0.1-dind
-      command: ["--tls=false"]
+    - docker:23.0.1-dind
   variables:
     DOCKER_HOST: tcp://docker:2375
     DOCKER_TLS_CERTDIR: ""
