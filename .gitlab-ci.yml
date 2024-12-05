@@ -19,8 +19,6 @@ frontend-build:
       command: ["--tls=false"]
   variables:
     DOCKER_HOST: tcp://docker:2375
-    DOCKER_TLS_CERTDIR: ""
-    privileged: true
   before_script:
     - docker --version
   script:
