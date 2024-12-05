@@ -13,7 +13,7 @@ prologue-job:
 
 frontend-build:
   stage: build
-  image: docker:27.0.0
+  image: docker:latest
   services:
     - docker:dind
   variables:
@@ -29,7 +29,7 @@ frontend-build:
 
 backend-build:
   stage: build
-  image: docker:27.0.0
+  image: docker:latest
   services:
     - docker:dind
   variables:
