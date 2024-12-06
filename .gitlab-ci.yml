@@ -49,3 +49,4 @@ aws-job:
     - echo "Ready to be pushed!"
   only:
     - main
+  when: manual
