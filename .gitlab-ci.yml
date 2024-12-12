@@ -45,8 +45,17 @@ backend-build:
 
 aws-job:
   stage: update_ECR
-  script:
-    - echo "Ready to be pushed!"
+  image: docker:latest
+  services:
+    - docker:23.0.1-dind
+  variables:
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_TLS_CERTDIR: ""
+  before_script:
+    - apk add --no-cache py3-pip && pip install awscli
+    - docker --version
+    - aws --version
+
   only:
     - main
   when: manual
