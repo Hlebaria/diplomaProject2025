@@ -1,5 +1,8 @@
 
 # For more information, see: https://docs.gitlab.com/ee/ci/yaml/index.html#stages
+variables:
+  AWS_REGISTRY: $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+  ECR_NAME: dimgroz-ecr-dr
 
 stages:          
   - runner_test
@@ -19,14 +22,8 @@ build-images:
   variables:
     DOCKER_HOST: tcp://docker:2375
     DOCKER_TLS_CERTDIR: ""
-  before_script:
-    - docker --version
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   script:
-    - docker build -t $CI_REGISTRY_IMAGE/app-frontend:latest ./frontend
-    - docker build -t $CI_REGISTRY_IMAGE/app-backend:latest ./backend2
-    - docker push $CI_REGISTRY_IMAGE/app-frontend:latest
-    - docker push $CI_REGISTRY_IMAGE/app-backend:latest
+    - echo "What?"
   only:
     - main
 
@@ -43,20 +40,19 @@ aws-job:
     - python3 -m venv /venv
     - . /venv/bin/activate
     - pip install awscli
-    - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_REGISTRY
   script:
     - docker --version
     - aws --version
 
-    - docker pull $CI_REGISTRY_IMAGE/app-frontend:latest
-    - docker pull $CI_REGISTRY_IMAGE/app-backend:latest
+    - docker build -t app-frontend:latest ./frontend
+    - docker build -t app-backend:latest ./backend2
 
-    - docker tag $CI_REGISTRY_IMAGE/app-frontend:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/dimgroz-ecr-dr/app-frontend:latest
-    - docker tag $CI_REGISTRY_IMAGE/app-backend:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/dimgroz-ecr-dr/app-backend:latest
+    - docker tag app-frontend:latest $AWS_REGISTRY/$ECR_NAME/app-frontend:latest
+    - docker tag app-backend:latest $AWS_REGISTRY/$ECR_NAME/app-backend:latest
     
-    - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/dimgroz-ecr-dr/app-frontend:latest
-    - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/dimgroz-ecr-dr/app-backend:latest
+    - docker push $AWS_REGISTRY/$ECR_NAME/app-frontend:latest
+    - docker push $AWS_REGISTRY/$ECR_NAME/app-backend:latest
 
   only:
     - main
