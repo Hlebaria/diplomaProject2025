@@ -23,7 +23,10 @@ build-images:
     DOCKER_HOST: tcp://docker:2375
     DOCKER_TLS_CERTDIR: ""
   script:
-    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
+    - | 
+      for i in {1..5}; do
+        echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin && break || sleep 15;
+      done
     - docker build -t $CI_REGISTRY_IMAGE/frontend-latest ./frontend
     - docker build -t $CI_REGISTRY_IMAGE/backend-latest ./backend2
     - docker push $CI_REGISTRY_IMAGE
