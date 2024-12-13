@@ -22,12 +22,15 @@ build-images:
   variables:
     DOCKER_HOST: tcp://docker:2375
     DOCKER_TLS_CERTDIR: ""
+    DOCKER_CLIENT_TIMEOUT: 300
+    COMPOSE_HTTP_TIMEOUT: 300
   before_script:
     - apk add --no-cache curl
   script:
 
     # - curl -v https://gitlab.itgix.com:5050/v2/
-    - nslookup gitlab.itgix.com
+    # - nslookup gitlab.itgix.com
+    - echo $CI_REGISTRY ; $CI_REGISTRY_USER
 
     - echo $CI_REGISTRY_TOKEN | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
     # - docker build -t $CI_REGISTRY_IMAGE:frontend-latest ./frontend
