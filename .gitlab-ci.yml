@@ -26,10 +26,10 @@ build-images:
     - apk add --no-cache curl
   script:
 
-    - curl -v https://gitlab.itgix.com:5050/v2/
+    # - curl -v https://gitlab.itgix.com:5050/v2/
     - nslookup gitlab.itgix.com
 
-    # - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
+    - echo $CI_REGISTRY_TOKEN | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
     # - docker build -t $CI_REGISTRY_IMAGE:frontend-latest ./frontend
     # - docker build -t $CI_REGISTRY_IMAGE:backend-latest ./backend2
     # - docker push $CI_REGISTRY_IMAGE:frontend-latest
