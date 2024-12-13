@@ -51,7 +51,8 @@ aws-job:
     - docker tag app-frontend:latest $AWS_REGISTRY/$ECR_NAME/app-frontend:latest
     - docker tag app-backend:latest $AWS_REGISTRY/$ECR_NAME/app-backend:latest
     
-    - docker push $AWS_REGISTRY/$ECR_NAME
+    - docker push $AWS_REGISTRY/$ECR_NAME/app-frontend:latest
+    - docker push $AWS_REGISTRY/$ECR_NAME/app-backend:latest
 
   only:
     - main
