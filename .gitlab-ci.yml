@@ -29,7 +29,8 @@ build-images:
     # - echo $CI_REGISTRY_TOKEN | docker login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY 
   script:
 
-    - curl -v https://gitlab.itgix.com:5050/v2/
+    # - curl -v https://gitlab.itgix.com:5050/v2/
+    - telnet gitlab.itgix.com 5050
     # - nslookup gitlab.itgix.com
     # - echo $CI_REGISTRY
     # - echo $CI_REGISTRY_USER
