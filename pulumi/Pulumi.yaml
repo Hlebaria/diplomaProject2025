@@ -1,0 +1,16 @@
+name: vote-app-dr
+description: AWS Pulumi YAML program
+runtime: yaml
+
+resources:
+  voteAppEcrRepo:
+    type: aws:ecr:Repository
+    properties:
+      name: "dimgroz-ecr-dr"
+      imageTagMutability: "MUTABLE"
+      imageScanningConfiguration:
+        scanOnPush: true
+
+outputs:
+  repositoryUri: ${voteAppEcrRepo.repositoryUrl}
+
