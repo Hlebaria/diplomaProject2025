@@ -29,8 +29,14 @@ build-images:
       done
     - docker build -t $CI_REGISTRY_IMAGE:frontend-latest ./frontend
     - docker build -t $CI_REGISTRY_IMAGE:backend-latest ./backend2
-    - docker push $CI_REGISTRY_IMAGE:frontend-latest
-    - docker push $CI_REGISTRY_IMAGE:backend-latest
+    - | 
+      for i in {1..5}; do
+        docker push $CI_REGISTRY_IMAGE:frontend-latest && break || sleep 15;
+      done
+    - | 
+      for i in {1..5}; do
+        docker push $CI_REGISTRY_IMAGE:backend-latest && break || sleep 15;
+      done
 
   only:
     - main
