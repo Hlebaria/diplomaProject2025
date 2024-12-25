@@ -1,6 +1,5 @@
 package com.choiceApp.MyChoiceApp;
 
-//import io.github.cdimascio.dotenv.Dotenv;
 import org.junit.jupiter.api.Test;
 //import org.postgresql.ds.PGConnectionPoolDataSource;
 //import java.sql.Connection;
