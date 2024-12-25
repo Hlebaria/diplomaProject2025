@@ -1,0 +1,51 @@
+﻿apiVersion: apps/v1
+kind: {{ .Values.db.kind }}
+metadata:
+  name: postgres-db
+  labels:
+    app: postgres
+spec:
+  replicas: {{ .Values.db.replicas }}
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: {{ .Values.db.container.name }}
+          image: {{ .Values.db.container.image }}
+          ports:
+            - containerPort: {{ .Values.db.container.port }}
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.db.secret.name }}
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.db.secret.name }}
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.db.secret.name }}
+                  key: POSTGRES_DB
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.db.service.name }}
+spec:
+  selector:
+    app: database
+  ports:
+    - protocol: TCP
+      port: {{ .Values.db.service.port }}
+      targetPort: {{ .Values.db.service.targetPort }}

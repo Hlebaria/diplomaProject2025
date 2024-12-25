@@ -1,0 +1,42 @@
+db:
+  kind: Deployment
+  replicas: 1
+  secret:
+    name: db-secret
+  container:
+    name: postgres
+    image: postgres:14
+    port: 5432
+  service:
+    name: db-service
+    port: 5432
+    targetPort: 5432
+
+backend:
+  kind: Deployment
+  replicas: 1
+  container:
+    name: backend
+    image: 722377226063.dkr.ecr.eu-central-1.amazonaws.com/dimgroz-ecr-dr:backend-latest
+    port: 5000
+    env:
+      dbUrl: "jdbc:postgresql://db:5432/vote-app-database"
+  service:
+    name: backend-service
+    port: 5000
+    targetPort: 5000
+
+frontend:
+  kind: Deployment
+  replicas: 1
+  container: 
+    name: frontend
+    image: 722377226063.dkr.ecr.eu-central-1.amazonaws.com/dimgroz-ecr-dr:frontend-latest
+    port: 3000
+    env:
+      backendUrl: "http://backend-service:5000"
+  service:
+    name: frontend-service
+    port: 3000
+    targetPort: 3000
+
