@@ -14,6 +14,15 @@ prologue-job:
   script:
     - echo "Runner is starting . . ."
 
+compile-and-tests:
+  stage: test
+  image: eclipse-temurin:21-jdk
+  before_script:
+    - apt-get update && apt-get install -y maven
+  script:
+    - cd backend2/MyChoiceApp/MyChoiceApp
+    - mvn test
+
 test-builds:
   stage: test
   image: docker:latest
