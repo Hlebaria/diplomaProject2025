@@ -3,6 +3,8 @@ description: AWS Pulumi YAML program
 runtime: yaml
 
 resources:
+  
+  # ECR
   voteAppEcrRepo:
     type: aws:ecr:Repository
     properties:
@@ -11,6 +13,105 @@ resources:
       imageScanningConfiguration:
         scanOnPush: true
 
+  # VPC
+  vpc:
+    type: aws:ec2:Vpc
+    properties:
+      cidrBlock: "10.0.0.0/16"
+      enableDnsSupport: true
+      enableDnsHostnames: true
+      tags:
+        Name: "dimgroz-vpc-dr"
+
+  # INTERNET GATEWAY
+  InternetGateway:
+    type: aws:ec2:InternetGateway
+    properties:
+      vpcId: ${vpc.id}
+      tags:
+        Name: "dimgroz-internet-gateway-dr"
+
+  # ROUTE TABLE
+  routeTable:
+    type: aws:ec2:RouteTable
+    properties:
+      vpcId: ${vpc.id}
+      tags:
+        Name: "dimgroz-route-table-dr"
+
+  route:
+    type: aws:ec2:Route
+    properties:
+      routeTableId: ${routeTable.id}
+      destinationCidrBlock: "0.0.0.0/0"
+      gatewayId: ${InternetGateway.id}
+
+  # SUBNNETS
+  subnet1:
+    type: aws:ec2:Subnet
+    properties:
+      vpcId: ${vpc.id}
+      cidrBlock: "10.0.0.0/24"
+      availabilityZone: "eu-central-1a"
+      mapPublicIpOnLaunch: true
+      tags:
+        Name: "dimgroz-subnet1-dr"
+
+  subnet2:
+    type: aws:ec2:Subnet
+    properties:
+      vpcId: ${vpc.id}
+      cidrBlock: "10.0.1.0/24"
+      availabilityZone: "eu-central-1b"
+      mapPublicIpOnLaunch: true
+      tags:
+        Name: "dimgroz-subnet2-dr"
+
+  # ROUTING SUBNETS
+  routeTableAssociation1:
+    type: aws:ec2:RouteTableAssociation
+    properties:
+      subnetId: ${subnet1.id}
+      routeTableId: ${routeTable.id}
+
+  routeTableAssociation2:
+    type: aws:ec2:RouteTableAssociation
+    properties:
+      subnetId: ${subnet2.id}
+      routeTableId: ${routeTable.id}
+
+
+  # EKS CLUSTER
+  eksCluster:
+    type: aws:eks:Cluster
+    properties:
+      name: "dimgroz-eks-cluster-dr"
+      roleArn: "arn:aws:iam::722377226063:role/eks-cluster-role-dimgroz-dr"
+      version: "1.31"
+      vpcConfig:
+        subnetIds:
+          - ${subnet1.id}
+          - ${subnet2.id}
+        endpointPublicAccess: true
+        endpointPrivateAccess: false
+
+  # EKS NODE GROUP
+  eksNodeGroup:
+    type: aws:eks:NodeGroup
+    properties:
+      clusterName: ${eksCluster.name}
+      nodeGroupName: "dimgroz-eks-nodegroup-dr"
+      nodeRoleArn: "arn:aws:iam::722377226063:role/eks-nodegroup-role-dimgroz-dr"
+      subnetIds:
+        - ${subnet1.id}
+        - ${subnet2.id}
+      instanceTypes: ["t3.medium"]
+      scalingConfig:
+        desiredSize: 1
+        minSize: 1
+        maxSize: 1
+
 outputs:
   repositoryUri: ${voteAppEcrRepo.repositoryUrl}
-
+  eksClusterEndpoint: ${eksCluster.endpoint}
+  eksClusterName: ${eksCluster.name}
