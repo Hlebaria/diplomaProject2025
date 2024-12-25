@@ -20,7 +20,7 @@ compile-and-tests:
   before_script:
     - apt-get update && apt-get install -y maven
   script:
-    - cd backend2
+    - cd backend2/MyChoiceApp/MyChoiceApp
     - mvn test
 
 test-builds:
