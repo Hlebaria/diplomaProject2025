@@ -15,7 +15,7 @@ spec:
       containers:
         - name: {{ .Values.backend.container.name }}
           image: {{ .Values.backend.container.image }}
-          imagePullPolicy: IfNotPresent # for local
+          imagePullPolicy: {{ .Values.backend.container.imagePullPolicy }}
           ports:
             - containerPort: {{ .Values.backend.container.port | int }}
           env:
