@@ -6,7 +6,7 @@ import static org.junit.Assert.assertEquals;
 public class FreeTest {
 
     @Test
-    public void printer() {
+    public void AutoTrue() {
         assertEquals(1, 1);
     }
 
