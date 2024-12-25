@@ -17,7 +17,7 @@ backend:
   replicas: 1
   container:
     name: backend
-    image: backend:latest
+    image: 722377226063.dkr.ecr.eu-central-1.amazonaws.com/dimgroz-ecr-dr:backend-latest
     port: 5000
     env:
       dbUrl: "jdbc:postgresql://db:5432/vote-app-database"
@@ -31,7 +31,7 @@ frontend:
   replicas: 1
   container: 
     name: frontend
-    image: frontend:latest
+    image: 722377226063.dkr.ecr.eu-central-1.amazonaws.com/dimgroz-ecr-dr:frontend-latest
     port: 3000
     env:
       backendUrl: "http://backend-service:5000"
