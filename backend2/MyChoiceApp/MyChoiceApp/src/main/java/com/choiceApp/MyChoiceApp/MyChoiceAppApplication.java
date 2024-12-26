@@ -8,7 +8,7 @@ public class MyChoiceAppApplication {
 
 	public static void main(String[] args) {
 
-        SpringApplication.run(MyChoiceAppApplication.class, args);
+		SpringApplication.run(MyChoiceAppApplication.class, args);
 	}
 
 }

@@ -17,7 +17,7 @@ spec:
           image: {{ .Values.frontend.container.image }}
           imagePullPolicy: {{ .Values.frontend.container.imagePullPolicy }}
           ports:
-            - containerPort: {{ .Values.frontend.container.port }} #3000
+            - containerPort: {{ .Values.frontend.container.port }}
           env:
             - name: REACT_APP_BACKEND_URL
               value: {{ .Values.frontend.container.env.backendUrl }}
@@ -34,4 +34,4 @@ spec:
     - protocol: TCP
       port: {{ .Values.frontend.service.port }}
       targetPort: {{ .Values.frontend.service.targetPort }}
-  type: NodePort
+  type: {{ .Values.frontend.service.type }}
