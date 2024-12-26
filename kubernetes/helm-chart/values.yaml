@@ -4,8 +4,8 @@ db:
   secret:
     name: db-secret
   container:
-    name: postgres
-    image: postgres:14
+    name: postgres-db
+    image: postgres:15-alpine
     port: 5432
   service:
     name: db-service
@@ -20,8 +20,6 @@ backend:
     image: 722377226063.dkr.ecr.eu-central-1.amazonaws.com/dimgroz-ecr-dr:backend-latest
     imagePullPolicy: Always
     port: 5000
-    env:
-      dbUrl: "jdbc:postgresql://db:5432/vote-app-database"
   service:
     name: backend-service
     port: 5000
@@ -38,6 +36,7 @@ frontend:
     env:
       backendUrl: "http://backend-service:5000"
   service:
+    type: NodePort
     name: frontend-service
     port: 3000
     targetPort: 3000

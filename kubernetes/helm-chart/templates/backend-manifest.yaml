@@ -20,7 +20,20 @@ spec:
             - containerPort: {{ .Values.backend.container.port | int }}
           env:
             - name: DATABASE_URL
-              value: {{ .Values.backend.container.env.dbUrl }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.db.secret.name }}
+                  key: DATABASE_URL
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.db.secret.name }}
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.db.secret.name }}
+                  key: POSTGRES_PASSWORD
 
 ---
 apiVersion: v1
