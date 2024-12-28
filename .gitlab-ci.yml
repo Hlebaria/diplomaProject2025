@@ -55,11 +55,13 @@ aws-job:
     - docker build -t app-frontend ./frontend
     - docker build -t app-backend ./backend2
 
-    - docker tag app-frontend $AWS_REGISTRY/$ECR_NAME:frontend-latest
-    - docker tag app-backend $AWS_REGISTRY/$ECR_NAME:backend-latest
+    - NEW_TAG="v$CI_PIPELINE_ID"
+
+    - docker tag app-frontend $AWS_REGISTRY/$ECR_NAME:frontend-0.0.$NEW_TAG
+    - docker tag app-backend $AWS_REGISTRY/$ECR_NAME:backend-0.0.$NEW_TAG
     
-    - docker push $AWS_REGISTRY/$ECR_NAME:frontend-latest
-    - docker push $AWS_REGISTRY/$ECR_NAME:backend-latest
+    - docker push $AWS_REGISTRY/$ECR_NAME:frontend-0.0.$NEW_TAG
+    - docker push $AWS_REGISTRY/$ECR_NAME:backend-0.0.$NEW_TAG
 
   only:
     - main
