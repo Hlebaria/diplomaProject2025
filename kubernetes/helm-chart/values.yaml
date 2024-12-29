@@ -41,3 +41,7 @@ frontend:
     port: 3000
     targetPort: 3000
 
+ingress:
+  name: ingress
+  namespace: dev
+  hostname: www.votaro.org

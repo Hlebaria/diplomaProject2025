@@ -1,1 +1,4 @@
-﻿
+﻿ingress:
+  name: ingress-dev
+  namespace: dev
+  hostname: www.votarodev.org
