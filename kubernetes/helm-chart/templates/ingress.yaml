@@ -8,9 +8,9 @@ spec:
   rules:
     - host: {{ .Values.ingress.hostname }}
       http:
-         paths:
-           - path: /
-             pathType: Prefix
+        paths:
+          - path: /
+            pathType: Prefix
             backend:
               service:
                 name: {{ .Values.frontend.service.name }}
