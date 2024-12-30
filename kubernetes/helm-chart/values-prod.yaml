@@ -1,4 +1,7 @@
-﻿ingress:
+﻿backend:
+  cors:
+    allowedOrigins: http://www.votaro.org
+ingress:
   name: ingress-prod
   namespace: prod
   hostname: www.votaro.org

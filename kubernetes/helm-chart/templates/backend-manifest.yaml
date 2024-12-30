@@ -19,6 +19,8 @@ spec:
           ports:
             - containerPort: {{ .Values.backend.container.port | int }}
           env:
+            - name: CORS_ALLOWED_ORIGINS
+              value: "{{ .Values.backend.cors.allowedOrigins }}"
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
