@@ -14,7 +14,7 @@ prologue-job:
   script:
     - echo "Runner is starting . . ."
 
-compile-and-tests:
+compile-and-test-backend:
   stage: test
   image: eclipse-temurin:21-jdk
   before_script:
@@ -22,20 +22,6 @@ compile-and-tests:
   script:
     - cd backend2/MyChoiceApp/MyChoiceApp
     - mvn test
-
-test-builds:
-  stage: test
-  image: docker:latest
-  services:
-    - docker:23.0.1-dind
-  variables:
-    DOCKER_HOST: tcp://docker:2375
-    DOCKER_TLS_CERTDIR: ""
-  script:
-    - docker build -t app-frontend ./frontend
-    - docker build -t app-backend ./backend2
-  only:
-    - development
 
 aws-job:
   stage: update_ECR
@@ -55,12 +41,12 @@ aws-job:
     - docker build -t app-frontend ./frontend
     - docker build -t app-backend ./backend2
 
-    - docker tag app-frontend $AWS_REGISTRY/$ECR_NAME:frontend-latest
-    - docker tag app-backend $AWS_REGISTRY/$ECR_NAME:backend-latest
-    
-    - docker push $AWS_REGISTRY/$ECR_NAME:frontend-latest
-    - docker push $AWS_REGISTRY/$ECR_NAME:backend-latest
+    - NEW_TAG="v$CI_PIPELINE_ID"
 
-  only:
-    - main
+    - docker tag app-frontend $AWS_REGISTRY/$ECR_NAME:frontend-0.0.$NEW_TAG
+    - docker tag app-backend $AWS_REGISTRY/$ECR_NAME:backend-0.0.$NEW_TAG
+    
+    - docker push $AWS_REGISTRY/$ECR_NAME:frontend-0.0.$NEW_TAG
+    - docker push $AWS_REGISTRY/$ECR_NAME:backend-0.0.$NEW_TAG
+
   when: manual
