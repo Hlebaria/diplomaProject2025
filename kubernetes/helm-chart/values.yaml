@@ -35,7 +35,7 @@ frontend:
     imagePullPolicy: Always
     port: 3000
     env:
-      backendUrl: "http://backend-service:5000"
+      backendUrl: http://backend-service:5000
   service:
     type: NodePort
     name: frontend-service
