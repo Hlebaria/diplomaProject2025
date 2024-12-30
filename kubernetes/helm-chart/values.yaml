@@ -24,7 +24,8 @@ backend:
     name: backend-service
     port: 5000
     targetPort: 5000
-
+  cors:
+    allowedOrigins: http://localhost:3000
 frontend:
   kind: Deployment
   replicas: 1
@@ -41,3 +42,7 @@ frontend:
     port: 3000
     targetPort: 3000
 
+ingress:
+  name: ingress
+  namespace: dev
+  hostname: www.votaro.org
