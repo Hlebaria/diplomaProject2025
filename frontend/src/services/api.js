@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL + '/api';
+// dev / prod usecase variable injection
+const API_URL = (process.env.REACT_APP_BACKEND_URL || '$REACT_APP_BACKEND_URL') + '/api';
 
 export const fetchHelloMessage = async () => {
     try {

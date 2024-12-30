@@ -26,6 +26,7 @@ backend:
     targetPort: 5000
   cors:
     allowedOrigins: http://localhost:3000
+
 frontend:
   kind: Deployment
   replicas: 1

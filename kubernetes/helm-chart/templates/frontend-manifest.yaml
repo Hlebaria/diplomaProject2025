@@ -19,7 +19,7 @@ spec:
           ports:
             - containerPort: {{ .Values.frontend.container.port }}
           env:
-            - name: REACT_APP_API_URL
+            - name: REACT_APP_BACKEND_URL
               value: {{ .Values.frontend.container.env.backendUrl }}
 
 ---
