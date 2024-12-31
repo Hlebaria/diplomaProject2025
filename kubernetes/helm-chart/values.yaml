@@ -11,6 +11,7 @@ db:
     name: db-service
     port: 5432
     targetPort: 5432
+    type: ClusterIP
 
 backend:
   kind: Deployment
@@ -24,6 +25,7 @@ backend:
     name: backend-service
     port: 5000
     targetPort: 5000
+    type: ClusterIP
   cors:
     allowedOrigins: http://localhost:3000
 
@@ -38,10 +40,10 @@ frontend:
     env:
       backendUrl: http://backend-service:5000
   service:
-    type: NodePort
     name: frontend-service
     port: 3000
     targetPort: 3000
+    type: ClusterIP
 
 ingress:
   name: ingress
