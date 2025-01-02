@@ -1,7 +1,7 @@
 db:
   kind: Deployment
   name: postgres-db
-  controller-label: postgres
+  controllerlabel: postgres
   label: postgres
   replicas: 1
   secret:
