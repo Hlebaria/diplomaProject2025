@@ -2,7 +2,7 @@
 kind: Ingress
 metadata:
   name: {{ .Values.ingress.name }}
-  namespace: {{ .Values.ingress.namespace }}
+  namespace: {{ .Values.namespace }}
 spec:
   ingressClassName: nginx
   rules:

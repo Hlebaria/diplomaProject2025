@@ -1,16 +1,16 @@
 ﻿apiVersion: apps/v1
 kind: {{ .Values.frontend.kind }}
 metadata:
-  name: frontend
+  name: {{ .Values.frontend.name }}
 spec:
   replicas: {{ .Values.frontend.replicas }}
   selector:
     matchLabels:
-      app: frontend
+      app: {{ .Values.frontend.label }}
   template:
     metadata:
       labels:
-        app: frontend
+        app: {{ .Values.frontend.label }}
     spec:
       containers:
         - name: {{ .Values.frontend.container.name }}
@@ -29,7 +29,7 @@ metadata:
   name: {{ .Values.frontend.service.name }}
 spec:
   selector:
-    app: frontend
+    app: {{ .Values.frontend.label }}
   ports:
     - protocol: TCP
       port: {{ .Values.frontend.service.port }}

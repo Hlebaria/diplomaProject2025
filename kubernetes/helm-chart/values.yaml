@@ -1,5 +1,8 @@
 db:
   kind: Deployment
+  name: postgres-db
+  controller-label: postgres
+  label: postgres
   replicas: 1
   secret:
     name: db-secret
@@ -15,6 +18,8 @@ db:
 
 backend:
   kind: Deployment
+  name: backend
+  label: backend
   replicas: 1
   container:
     name: backend
@@ -28,9 +33,15 @@ backend:
     type: ClusterIP
   cors:
     allowedOrigins: http://localhost:3000
+  monitor:
+    name: backend-monitor
+    path: /actuator/prometheus
+    interval: 30s
 
 frontend:
   kind: Deployment
+  name: frontend
+  label: frontend
   replicas: 1
   container: 
     name: frontend
@@ -47,5 +58,9 @@ frontend:
 
 ingress:
   name: ingress
-  namespace: dev
   hostname: www.votaro.org
+
+namespace: dev
+
+monitor:
+  namespace: monitor
