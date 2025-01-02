@@ -1,18 +1,18 @@
 ﻿apiVersion: apps/v1
 kind: {{ .Values.db.kind }}
 metadata:
-  name: postgres-db {{ .Values.db.name }}
+  name: {{ .Values.db.name }}
   labels:
-    app: postgres {{ .Values.db.controller-label }}
+    app: {{ .Values.db.controller-label }}
 spec:
   replicas: {{ .Values.db.replicas }}
   selector:
     matchLabels:
-      app: postgres {{ .Values.db.label }}
+      app: {{ .Values.db.label }}
   template:
     metadata:
       labels:
-        app: postgres {{ .Values.db.label }}
+        app: {{ .Values.db.label }}
     spec:
       containers:
         - name: {{ .Values.db.container.name }}
@@ -44,7 +44,7 @@ metadata:
   name: {{ .Values.db.service.name }}
 spec:
   selector:
-    app: postgres {{ .Values.db.label }}
+    app: {{ .Values.db.label }}
   ports:
     - protocol: TCP
       port: {{ .Values.db.service.port }}
