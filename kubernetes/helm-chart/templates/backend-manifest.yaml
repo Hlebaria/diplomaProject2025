@@ -42,7 +42,8 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ .Values.backend.service.name }}
-  label: {{ .Values.backend.label }}
+  labels:
+    app: {{ .Values.backend.label }}
 spec:
   selector:
     app: {{ .Values.backend.label }}
