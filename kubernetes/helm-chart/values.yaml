@@ -38,7 +38,7 @@ backend:
   monitor:
     name: backend-monitor
     path: /actuator/prometheus
-    interval: 30s
+    interval: 12h
 
 frontend:
   kind: Deployment
