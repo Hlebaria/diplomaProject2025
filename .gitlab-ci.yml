@@ -23,7 +23,7 @@ compile-and-test-backend:
     - cd backend2/MyChoiceApp/MyChoiceApp
     - mvn test
 
-aws-job:
+aws-job-frontend:
   stage: update_ECR
   image: docker:latest
   services:
@@ -39,14 +39,36 @@ aws-job:
     - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_REGISTRY
   script:
     - docker build -t app-frontend ./frontend
-    - docker build -t app-backend ./backend2
 
     - NEW_TAG="v$CI_PIPELINE_ID"
 
     - docker tag app-frontend $AWS_REGISTRY/$ECR_NAME:frontend-0.0.$NEW_TAG
-    - docker tag app-backend $AWS_REGISTRY/$ECR_NAME:backend-0.0.$NEW_TAG
     
     - docker push $AWS_REGISTRY/$ECR_NAME:frontend-0.0.$NEW_TAG
+  
+  when: manual
+
+aws-job-backend:
+  stage: update_ECR
+  image: docker:latest
+  services:
+    - docker:23.0.1-dind
+  variables:
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_TLS_CERTDIR: ""
+  before_script:
+    - apk add --no-cache python3 py3-pip
+    - python3 -m venv /venv
+    - . /venv/bin/activate
+    - pip install awscli
+    - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_REGISTRY
+  script:
+    - docker build -t app-backend ./backend2
+
+    - NEW_TAG="v$CI_PIPELINE_ID"
+
+    - docker tag app-backend $AWS_REGISTRY/$ECR_NAME:backend-0.0.$NEW_TAG
+    
     - docker push $AWS_REGISTRY/$ECR_NAME:backend-0.0.$NEW_TAG
 
   when: manual
