@@ -3,6 +3,8 @@ kind: ServiceMonitor
 metadata:
   name: {{ .Values.backend.monitor.name }}
   namespace: {{ .Values.monitor.namespace }}
+  labels:
+    release: {{ .Values.monitor.releaseLabel }}
 spec:
   selector:
     matchLabels:

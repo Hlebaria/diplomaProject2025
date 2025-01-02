@@ -1,7 +1,7 @@
 db:
   kind: Deployment
   name: postgres-db
-  controllerlabel: postgres
+  controllerLabel: postgres
   label: postgres
   replicas: 1
   secret:
@@ -64,3 +64,4 @@ namespace: dev
 
 monitor:
   namespace: monitor
+  releaseLabel: prometheus

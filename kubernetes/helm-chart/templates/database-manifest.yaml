@@ -3,7 +3,7 @@ kind: {{ .Values.db.kind }}
 metadata:
   name: {{ .Values.db.name }}
   labels:
-    app: {{ .Values.db.controllerlabel }}
+    app: {{ .Values.db.controllerLabel }}
 spec:
   replicas: {{ .Values.db.replicas }}
   selector:
