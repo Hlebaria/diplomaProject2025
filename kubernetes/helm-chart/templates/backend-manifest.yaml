@@ -49,4 +49,5 @@ spec:
     - protocol: TCP
       port: {{ .Values.backend.service.port }}
       targetPort: {{ .Values.backend.service.targetPort }}
+      name: {{ .Values.backend.service.portName }}
   type: {{ .Values.backend.service.type }}

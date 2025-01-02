@@ -15,6 +15,7 @@ db:
     port: 5432
     targetPort: 5432
     type: ClusterIP
+    portName: AccessPort
 
 backend:
   kind: Deployment
@@ -31,6 +32,7 @@ backend:
     port: 5000
     targetPort: 5000
     type: ClusterIP
+    portName: mainPort
   cors:
     allowedOrigins: http://localhost:3000
   monitor:
@@ -55,6 +57,7 @@ frontend:
     port: 3000
     targetPort: 3000
     type: ClusterIP
+    portName: web
 
 ingress:
   name: ingress

@@ -13,6 +13,6 @@ spec:
     matchNames:
     - {{ .Values.namespace }}
   endpoints:
-  - port: http
+  - port: {{ .Values.backend.service.portName }}
     path: {{ .Values.backend.monitor.path }}
     interval: {{ .Values.backend.monitor.interval }}

@@ -49,4 +49,5 @@ spec:
     - protocol: TCP
       port: {{ .Values.db.service.port }}
       targetPort: {{ .Values.db.service.targetPort }}
+      name: {{ .Values.db.service.portName }}
   type: {{ .Values.db.service.type }}
