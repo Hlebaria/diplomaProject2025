@@ -6,6 +6,6 @@
 
 ingress:
   name: ingress-dev
-  hostname: www.votarodev.org
+  hostname: www.votarodev.itgix.eu
 
 namespace: dev
