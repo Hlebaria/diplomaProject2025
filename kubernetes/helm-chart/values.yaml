@@ -77,6 +77,10 @@ keycloak:
   secret: 
     name: kc-secret
   realmName: votaroRealm
+  command:
+    - /opt/keycloak/bin/kc.sh
+  args:
+    - start-dev
 
 keycloakDatabase:
   kind: Deployment

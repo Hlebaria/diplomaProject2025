@@ -18,6 +18,8 @@ spec:
       containers:
         - name: {{ .Values.keycloak.container.name }}
           image: {{ .Values.keycloak.container.image }}
+          command: {{ .Values.keycloak.command | toJson }}
+          args: {{ .Values.keycloak.args | toJson }}
           ports:
             - containerPort: 8080
           env:
