@@ -59,7 +59,7 @@ frontend:
     type: ClusterIP
     portName: web
 
-keyclaok:
+keycloak:
   kind: StatefulSet
   name: keycloak
   controllerLabel: keycloak
@@ -77,7 +77,6 @@ keyclaok:
   secret: 
     name: kc-secret
   realmName: votaroRealm
-
 
 keycalokDatabase:
   kind: Deployment
