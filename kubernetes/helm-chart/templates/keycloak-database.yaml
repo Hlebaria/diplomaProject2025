@@ -1,0 +1,55 @@
+﻿apiVersion: apps/v1
+kind: {{ .Values.keycloakDatabase.kind }}
+metadata:
+  name: {{ .Values.keycloakDatabase.name }}
+  labels:
+    app: {{ .Values.keycloakDatabase.controllerLabel }}
+spec:
+  replicas: {{ .Values.keycloakDatabase.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.keycloakDatabase.label }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.keycloakDatabase.label }}
+    spec:
+      containers:
+        - name: {{ .Values.keycloakDatabase.container.name }}
+          image: {{ .Values.keycloakDatabase.container.image }}
+          ports:
+            - containerPort: {{ .Values.keycloakDatabase.container.port }}
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.keycloak.secret.name }}
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.keycloak.secret.name }}
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.keycloak.secret.name }}
+                  key: POSTGRES_DB
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.keycloakDatabase.service.name }}
+  labels:
+    app: {{ .Values.keycloakDatabase.label }}
+spec:
+  selector:
+    app: {{ .Values.keycloakDatabase.label }}
+  ports:
+    - protocol: TCP
+      port: {{ .Values.keycloakDatabase.service.port }}
+      targetPort: {{ .Values.keycloakDatabase.service.targetPort }}
+      name: {{ .Values.keycloakDatabase.service.portName }}
+  type: {{ .Values.keycloakDatabase.service.type }}

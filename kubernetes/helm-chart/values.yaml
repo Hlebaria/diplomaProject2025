@@ -59,6 +59,41 @@ frontend:
     type: ClusterIP
     portName: web
 
+keyclaok:
+  kind: StatefulSet
+  name: keycloak
+  controllerLabel: keycloak
+  replicas: 1
+  label: keycloak
+  container: 
+    name: keycloak
+    image: keycloak/keycloak:26.1.0
+  service:
+    name: keycloak-service
+    port: 8082
+    targetPort: 8080
+    type: ClusterIP
+    portName: keycloak
+  secret: 
+    name: kc-secret
+  realmName: -
+
+
+keycalokDatabase:
+  kind: Deployment
+  name: keycloakDB
+  controllerLabel: keycloakDB
+  label: keycloakDB
+  replicas: 1
+  container:
+    name: keycloakDB
+    image: postgres:15-alpine
+    port: 5432
+  service:
+    port: 5433
+    targetPort: 5432
+    type: ClusterIP
+
 ingress:
   name: ingress
   hostname: www.votaro.org
