@@ -51,5 +51,4 @@ spec:
     - protocol: TCP
       port: {{ .Values.keycloakDatabase.service.port }}
       targetPort: {{ .Values.keycloakDatabase.service.targetPort }}
-      name: {{ .Values.keycloakDatabase.service.portName }}
   type: {{ .Values.keycloakDatabase.service.type }}
