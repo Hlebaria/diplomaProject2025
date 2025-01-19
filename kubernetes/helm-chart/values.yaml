@@ -80,12 +80,12 @@ keycloak:
 
 keycloakDatabase:
   kind: Deployment
-  name: keycloakDB
+  name: keycloak-db
   controllerLabel: keycloakDB
-  label: keycloakDB
+  label: keycloak-db
   replicas: 1
   container:
-    name: keycloakDB
+    name: keycloak-db
     image: postgres:15-alpine
     port: 5432
   service:
