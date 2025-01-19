@@ -89,6 +89,7 @@ keycloakDatabase:
     image: postgres:15-alpine
     port: 5432
   service:
+    name: keycloak-db-service
     port: 5433
     targetPort: 5432
     type: ClusterIP
