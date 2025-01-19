@@ -78,7 +78,7 @@ keycloak:
     name: kc-secret
   realmName: votaroRealm
 
-keycalokDatabase:
+keycloakDatabase:
   kind: Deployment
   name: keycloakDB
   controllerLabel: keycloakDB
