@@ -76,7 +76,7 @@ keyclaok:
     portName: keycloak
   secret: 
     name: kc-secret
-  realmName: -
+  realmName: votaroRealm
 
 
 keycalokDatabase:
