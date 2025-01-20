@@ -17,9 +17,9 @@ spec:
       containers:
         - name: {{ .Values.db.container.name }}
           image: {{ .Values.db.container.image }}
-          volumeMounts:
-            - mountPath: {{ .Values.db.container.mountPath }}
-              name: {{ .Values.db.volumes.name }}
+          # volumeMounts:
+          #   - mountPath: {{ .Values.db.container.mountPath }}
+          #     name: {{ .Values.db.volumes.name }}
           ports:
             - containerPort: {{ .Values.db.container.port }}
           env:
@@ -38,10 +38,10 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.db.secret.name }}
                   key: POSTGRES_DB
-      volumes:
-        - name: {{ .Values.db.volumes.name }}
-          persistentVolumeClaim:
-            claimName: {{ .Values.app.pvc.name }}
+      # volumes:
+      #   - name: {{ .Values.db.volumes.name }}
+      #     persistentVolumeClaim:
+      #       claimName: {{ .Values.app.pvc.name }}
 
 ---
 
