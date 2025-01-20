@@ -18,6 +18,11 @@ spec:
       containers:
         - name: {{ .Values.keycloak.container.name }}
           image: {{ .Values.keycloak.container.image }}
+          volumeMounts:
+            - mountPath: {{ .Values.keycloak.container.dataMountPath }}
+              name: {{ .Values.keycloak.volumes.name }}
+            - mountPath: {{ .Values.keycloak.container.logsMountPath }}
+              name: {{ .Values.keycloak.volumes.name }}
           command: {{ .Values.keycloak.command | toJson }}
           args: {{ .Values.keycloak.args | toJson }}
           ports:
@@ -54,6 +59,10 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.keycloak.secret.name }}
                   key: KEYCLOAK_ADMIN_PASSWORD
+      volumes:
+      - name: {{ .Values.keycloak.volumes.name }}
+        persistentVolumeClaim:
+          claimName: {{ .Values.kc.pvc.name }}
 
 ---
 
@@ -69,7 +78,7 @@ spec:
   ports:
     - protocol: TCP
       port: {{ .Values.keycloak.service.port }}
-      targetPort: {{ .Values.keycloak.service.TargetPort }} 
+      targetPort: {{ .Values.keycloak.service.targetPort }} 
       name: {{ .Values.keycloak.service.portName }}
   type: {{ .Values.keycloak.service.type }}
 

@@ -10,6 +10,9 @@ db:
     name: postgres-db
     image: postgres:15-alpine
     port: 5432
+    mountPath: /var/lib/postgresql/data
+  volumes:  
+    name: app-db-data
   service:
     name: db-service
     port: 5432
@@ -68,6 +71,10 @@ keycloak:
   container: 
     name: keycloak
     image: keycloak/keycloak:26.1.0
+    dataMountPath: /opt/keycloak/data
+    logsMountPath: /opt/keycloak/data
+  volumes:  
+    name: keycloak-app-data
   service:
     name: keycloak-service
     port: 8080
@@ -92,11 +99,35 @@ keycloakDatabase:
     name: keycloak-db
     image: postgres:15-alpine
     port: 5432
+    mountPath: /var/lib/postgresql/data
+  volumes:  
+    name: keycloak-db-data
   service:
     name: keycloak-db-service
     port: 5433
     targetPort: 5432
     type: ClusterIP
+
+storageClass:
+  name: votaro-storage-class
+  type: gp2
+  fsType: ext4
+  reclaimPolicy: Retain
+  volumeBindingMode: Immediate
+  allowVolumeExpansion: true
+app:
+  pvc:
+    name: app-pvc
+    size: 1Gi
+kc:
+  pvc:
+    name: keycloak-pvc
+    size: 1Gi
+kcDb:
+  pvc:
+    name: keycloak-db-pvc
+    size: 1Gi
+
 
 ingress:
   name: ingress
