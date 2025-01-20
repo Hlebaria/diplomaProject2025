@@ -22,6 +22,8 @@ spec:
               name: {{ .Values.keycloakDatabase.volumes.name }}
           ports:
             - containerPort: {{ .Values.keycloakDatabase.container.port }}
+          command:
+            - "/bin/sh"
           env:
             - name: POSTGRES_USER
               valueFrom:
