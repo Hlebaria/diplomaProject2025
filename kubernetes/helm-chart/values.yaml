@@ -10,7 +10,7 @@ db:
     name: postgres-db
     image: postgres:15-alpine
     port: 5432
-    mountPath: /var/lib/postgresql/data/appdata
+    mountPath: /var/lib/postgresql/data
   volumes:  
     name: app-db-data
   service:
