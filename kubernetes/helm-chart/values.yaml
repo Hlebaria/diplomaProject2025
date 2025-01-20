@@ -99,7 +99,7 @@ keycloakDatabase:
     name: keycloak-db
     image: postgres:15-alpine
     port: 5432
-    mountPath: /var/lib/postgresql/data/kcdbdata
+    mountPath: /var/lib/postgresql/data
   volumes:  
     name: keycloak-db-data
   service:
