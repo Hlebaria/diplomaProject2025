@@ -23,3 +23,24 @@ spec:
                 name: {{ .Values.backend.service.name }}
                 port:
                   number: {{ .Values.backend.service.port }}
+          - path: /auth
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.keycloak.service.name }}
+                port:
+                  number: {{ .Values.keycloak.service.port }}
+          - path: /realms
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.keycloak.service.name }}
+                port:
+                  number: {{ .Values.keycloak.service.port }}
+          - path: /protocol
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.keycloak.service.name }}
+                port:
+                  number: {{ .Values.keycloak.service.port }}
