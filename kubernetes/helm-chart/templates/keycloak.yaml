@@ -1,94 +1,94 @@
-﻿# apiVersion: apps/v1
-# kind: {{ .Values.keycloak.kind }}
-# metadata:
-#   name: {{ .Values.keycloak.name }}
-#   labels:
-#     app: {{ .Values.keycloak.controllerLabel }}
-# spec:
-#   replicas: {{ .Values.keycloak.replicas }}
-#   selector:
-#     matchLabels:
-#       app: {{ .Values.keycloak.label }}
-#   serviceName: keycloak
-#   template:
-#     metadata:
-#       labels:
-#         app: {{ .Values.keycloak.label }}
-#     spec:
-#       containers:
-#         - name: {{ .Values.keycloak.container.name }}
-#           image: {{ .Values.keycloak.container.image }}
-#           volumeMounts:
-#             - mountPath: {{ .Values.keycloak.container.dataMountPath }}
-#               name: {{ .Values.keycloak.volumes.name }}
-#             - mountPath: {{ .Values.keycloak.container.logsMountPath }}
-#               name: {{ .Values.keycloak.volumes.name }}
-#           command: {{ .Values.keycloak.command | toJson }}
-#           args: {{ .Values.keycloak.args | toJson }}
-#           ports:
-#             - containerPort: 8080
-#           env:
-#             - name: KEYCLOAK_REALM_NAME
-#               value: {{ .Values.keycloak.realmName }}
-#             - name: DB_VENDOR
-#               value: postgres
-#             - name: DB_ADDR
-#               value: {{ .Values.keycloakDatabase.service.name }}
-#             - name: POSTGRES_USER
-#               valueFrom:
-#                 secretKeyRef:
-#                   name: {{ .Values.keycloak.secret.name }}
-#                   key: POSTGRES_USER
-#             - name: POSTGRES_PASSWORD
-#               valueFrom:
-#                 secretKeyRef:
-#                   name: {{ .Values.keycloak.secret.name }}
-#                   key: POSTGRES_PASSWORD
-#             - name: POSTGRES_DB
-#               valueFrom:
-#                 secretKeyRef:
-#                   name: {{ .Values.keycloak.secret.name }}
-#                   key: POSTGRES_DB
-#             - name: KEYCLOAK_ADMIN
-#               valueFrom:
-#                 secretKeyRef:
-#                   name: {{ .Values.keycloak.secret.name }}
-#                   key: KEYCLOAK_ADMIN
-#             - name: KEYCLOAK_ADMIN_PASSWORD
-#               valueFrom:
-#                 secretKeyRef:
-#                   name: {{ .Values.keycloak.secret.name }}
-#                   key: KEYCLOAK_ADMIN_PASSWORD
-#       volumes:
-#       - name: {{ .Values.keycloak.volumes.name }}
-#         persistentVolumeClaim:
-#           claimName: {{ .Values.kc.pvc.name }}
+﻿apiVersion: apps/v1
+kind: {{ .Values.keycloak.kind }}
+metadata:
+  name: {{ .Values.keycloak.name }}
+  labels:
+    app: {{ .Values.keycloak.controllerLabel }}
+spec:
+  replicas: {{ .Values.keycloak.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.keycloak.label }}
+  serviceName: keycloak
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.keycloak.label }}
+    spec:
+      containers:
+        - name: {{ .Values.keycloak.container.name }}
+          image: {{ .Values.keycloak.container.image }}
+          volumeMounts:
+            - mountPath: {{ .Values.keycloak.container.dataMountPath }}
+              name: {{ .Values.keycloak.volumes.name }}
+            - mountPath: {{ .Values.keycloak.container.logsMountPath }}
+              name: {{ .Values.keycloak.volumes.name }}
+          command: {{ .Values.keycloak.command | toJson }}
+          args: {{ .Values.keycloak.args | toJson }}
+          ports:
+            - containerPort: 8080
+          env:
+            - name: KC_REALM
+              value: {{ .Values.keycloak.env.realmName }}
+            - name: KC_DB
+              value: postgres
+            - name: KC_DB_URL_HOST
+              value: {{ .Values.keycloak.env.dburl }}
+            - name: KC_DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.keycloak.secret.name }}
+                  key: POSTGRES_USER
+            - name: KC_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.keycloak.secret.name }}
+                  key: POSTGRES_PASSWORD
+            - name: KC_DB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.keycloak.secret.name }}
+                  key: POSTGRES_DB
+            - name: KC_ADMIN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.keycloak.secret.name }}
+                  key: KC_ADMIN
+            - name: KC_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.keycloak.secret.name }}
+                  key: KC_ADMIN_PASSWORD
+      volumes:
+      - name: {{ .Values.keycloak.volumes.name }}
+        persistentVolumeClaim:
+          claimName: {{ .Values.kc.pvc.name }}
 
-# ---
+---
 
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: {{ .Values.keycloak.service.name }}
-#   labels:
-#     app: {{ .Values.keycloak.label }}
-# spec:
-#   selector:
-#     app: {{ .Values.keycloak.label }}
-#   ports:
-#     - protocol: TCP
-#       port: {{ .Values.keycloak.service.port }}
-#       targetPort: {{ .Values.keycloak.service.targetPort }} 
-#       name: {{ .Values.keycloak.service.portName }}
-#   type: {{ .Values.keycloak.service.type }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.keycloak.service.name }}
+  labels:
+    app: {{ .Values.keycloak.label }}
+spec:
+  selector:
+    app: {{ .Values.keycloak.label }}
+  ports:
+    - protocol: TCP
+      port: {{ .Values.keycloak.service.port }}
+      targetPort: {{ .Values.keycloak.service.targetPort }} 
+      name: {{ .Values.keycloak.service.portName }}
+  type: {{ .Values.keycloak.service.type }}
 
 
-# # x KEYCLOAK_ADMIN=admin
-# # x KEYCLOAK_ADMIN_PASSWORD=455ddri01v5aRoLoLa97
-# # x KEYCLOAK_REALM_NAME=votaroTest
-# # x DB_VENDOR=postgres
-# # x DB_ADDR="db-service"
-# # x POSTGRES_DB="keycloak-vote-app-database"
-# # x POSTGRES_USER=keycloak
-# # x POSTGRES_PASSWORD=keycloakKGBO44EIOVCI3PSQHMNG8LDRN
+# x KEYCLOAK_ADMIN=admin
+# x KEYCLOAK_ADMIN_PASSWORD=455ddri01v5aRoLoLa97
+# x KEYCLOAK_REALM_NAME=votaroTest
+# x DB_VENDOR=postgres
+# x DB_ADDR="db-service"
+# x POSTGRES_DB="keycloak-vote-app-database"
+# x POSTGRES_USER=keycloak
+# x POSTGRES_PASSWORD=keycloakKGBO44EIOVCI3PSQHMNG8LDRN
 
