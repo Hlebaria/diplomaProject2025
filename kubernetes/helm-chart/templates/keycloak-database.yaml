@@ -17,9 +17,9 @@ spec:
       containers:
         - name: {{ .Values.keycloakDatabase.container.name }}
           image: {{ .Values.keycloakDatabase.container.image }}
-          # volumeMounts:
-          #   - mountPath: {{ .Values.keycloakDatabase.container.mountPath }}
-          #     name: {{ .Values.keycloakDatabase.volumes.name }}
+          volumeMounts:
+            - mountPath: {{ .Values.keycloakDatabase.container.mountPath }}
+              name: {{ .Values.keycloakDatabase.volumes.name }}
           ports:
             - containerPort: {{ .Values.keycloakDatabase.container.port }}
           env:
@@ -38,10 +38,10 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.keycloak.secret.name }}
                   key: POSTGRES_DB
-      # volumes:
-      #   - name: {{ .Values.keycloakDatabase.volumes.name }}
-      #     persistentVolumeClaim:
-      #       claimName: {{ .Values.kcDb.pvc.name }}
+      volumes:
+        - name: {{ .Values.keycloakDatabase.volumes.name }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.kcDb.pvc.name }}
 
 ---
 
