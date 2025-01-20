@@ -15,13 +15,13 @@ spec:
         app: {{ .Values.db.label }}
     spec:
       containers:
-        - name: {{ .Values.db.container.name }}
+          name: {{ .Values.db.container.name }}
           image: {{ .Values.db.container.image }}
           volumeMounts:
-            - mountPath: {{ .Values.db.container.mountPath }}
-              name: {{ .Values.db.volumes.name }}
+            mountPath: {{ .Values.db.container.mountPath }}
+            name: {{ .Values.db.volumes.name }}
           ports:
-            - containerPort: {{ .Values.db.container.port }}
+              containerPort: {{ .Values.db.container.port }}
           env:
             - name: POSTGRES_USER
               valueFrom:
