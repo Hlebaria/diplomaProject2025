@@ -1,53 +1,53 @@
-﻿apiVersion: storage.k8s.io/v1
-kind: StorageClass
-metadata:
-  name: {{ .Values.storageClass.name }}
-provisioner: kubernetes.io/aws-ebs
-parameters:
-  type: {{ .Values.storageClass.type }}
-  fsType: {{ .Values.storageClass.fsType }}
-reclaimPolicy: {{ .Values.storageClass.reclaimPolicy }}
-volumeBindingMode: {{ .Values.storageClass.volumeBindingMode }}
-allowVolumeExpansion: {{ .Values.storageClass.allowVolumeExpansion }}
+﻿# apiVersion: storage.k8s.io/v1
+# kind: StorageClass
+# metadata:
+#   name: {{ .Values.storageClass.name }}
+# provisioner: kubernetes.io/aws-ebs
+# parameters:
+#   type: {{ .Values.storageClass.type }}
+#   fsType: {{ .Values.storageClass.fsType }}
+# reclaimPolicy: {{ .Values.storageClass.reclaimPolicy }}
+# volumeBindingMode: {{ .Values.storageClass.volumeBindingMode }}
+# allowVolumeExpansion: {{ .Values.storageClass.allowVolumeExpansion }}
 
----
+# ---
 
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: {{ .Values.app.pvc.name }}
-spec:
-  storageClassName: {{ .Values.storageClass.name }}
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: {{ .Values.app.pvc.size }}
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: {{ .Values.app.pvc.name }}
+# spec:
+#   storageClassName: {{ .Values.storageClass.name }}
+#   accessModes:
+#     - ReadWriteOnce
+#   resources:
+#     requests:
+#       storage: {{ .Values.app.pvc.size }}
 
----
+# ---
 
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: {{ .Values.kc.pvc.name }}
-spec:
-  storageClassName: {{ .Values.storageClass.name }}
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: {{ .Values.kc.pvc.size }}
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: {{ .Values.kc.pvc.name }}
+# spec:
+#   storageClassName: {{ .Values.storageClass.name }}
+#   accessModes:
+#     - ReadWriteOnce
+#   resources:
+#     requests:
+#       storage: {{ .Values.kc.pvc.size }}
 
----
+# ---
 
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: {{ .Values.kcDb.pvc.name }}
-spec:
-  storageClassName: {{ .Values.storageClass.name }}
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: {{ .Values.kcDb.pvc.size }}
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: {{ .Values.kcDb.pvc.name }}
+# spec:
+#   storageClassName: {{ .Values.storageClass.name }}
+#   accessModes:
+#     - ReadWriteOnce
+#   resources:
+#     requests:
+#       storage: {{ .Values.kcDb.pvc.size }}
