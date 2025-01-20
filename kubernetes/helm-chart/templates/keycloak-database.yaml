@@ -20,6 +20,7 @@ spec:
           volumeMounts:
             - mountPath: {{ .Values.keycloakDatabase.container.mountPath }}
               name: {{ .Values.keycloakDatabase.volumes.name }}
+              subPath: kcdbdata
           ports:
             - containerPort: {{ .Values.keycloakDatabase.container.port }}
           env:
