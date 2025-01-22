@@ -85,7 +85,7 @@ keycloak:
     name: kc-secret
   env:
     realmName: votaroRealm
-    dburl: jdbc:postgresql://keycloak-db-service:5433/keycloak-vote-app-database
+    dburl: jdbc:postgresql://keycloak-db-service:5432/keycloak-vote-app-database
   command:
     - /opt/keycloak/bin/kc.sh
   args:
@@ -107,7 +107,7 @@ keycloakDatabase:
     name: keycloak-db-data
   service:
     name: keycloak-db-service
-    port: 5433
+    port: 5432
     targetPort: 5432
     type: ClusterIP
 
