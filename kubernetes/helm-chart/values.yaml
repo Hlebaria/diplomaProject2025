@@ -89,8 +89,8 @@ keycloak:
   command:
     - /opt/keycloak/bin/kc.sh
   args:
-    - start-dev
-    - --verbose
+    - "start-dev --verbose"
+    # - --verbose
 
 keycloakDatabase:
   kind: Deployment
