@@ -1,0 +1,14 @@
+package com.choiceApp.MyChoiceApp.dataAccess;
+
+import com.choiceApp.MyChoiceApp.models.Question;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public interface QuestionRepository extends JpaRepository<Question, String> {
+
+    List<Question> findByPollId(String pollId);
+
+}
