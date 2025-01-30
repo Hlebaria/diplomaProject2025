@@ -24,30 +24,30 @@ spec:
     requests:
       storage: {{ .Values.app.pvc.size }}
 
----
+# ---
 
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: {{ .Values.kc.pvc.name }}
-spec:
-  storageClassName: {{ .Values.storageClass.name }}
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: {{ .Values.kc.pvc.size }}
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: {{ .Values.kc.pvc.name }}
+# spec:
+#   storageClassName: {{ .Values.storageClass.name }}
+#   accessModes:
+#     - ReadWriteOnce
+#   resources:
+#     requests:
+#       storage: {{ .Values.kc.pvc.size }}
 
----
+# ---
 
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: {{ .Values.kcDb.pvc.name }}
-spec:
-  storageClassName: {{ .Values.storageClass.name }}
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: {{ .Values.kcDb.pvc.size }}
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: {{ .Values.kcDb.pvc.name }}
+# spec:
+#   storageClassName: {{ .Values.storageClass.name }}
+#   accessModes:
+#     - ReadWriteOnce
+#   resources:
+#     requests:
+#       storage: {{ .Values.kcDb.pvc.size }}
