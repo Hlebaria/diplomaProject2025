@@ -85,7 +85,7 @@ keycloak:
     name: kc-secret
   env:
     realmName: votaroRealm
-    dburl: jdbc:postgresql://keycloak-db-service
+    dburl: keycloak-db-service
   command:
     - /opt/keycloak/bin/kc.sh
   args:
