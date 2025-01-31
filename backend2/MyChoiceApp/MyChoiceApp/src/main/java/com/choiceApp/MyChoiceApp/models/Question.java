@@ -11,25 +11,31 @@ import java.util.List;
 public class Question {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "pollId", nullable = false)
+    @JoinColumn(name = "poll_id", nullable = false)
     private Poll poll;
 
-    @Column(name = "allowedChoices", nullable = false)
-    private String allowedChoices;
+    @Column(name = "max_voter_choices", nullable = false)
+    private Integer maxVoterChoices;
 
-    @Column(name = "questionText", nullable = false)
+    @Column(name = "min_voter_choices", nullable = false)
+    private Integer minVoterChoices;
+
+    @Column(name = "question_text", nullable = false)
     private String questionText;
+
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Choice> choices;
+
+    public Question(){}
 
     public Integer getId() {
         return id;
     }
-
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Choice> choices;
 
     public void setId(Integer id) {
         this.id = id;
@@ -43,12 +49,20 @@ public class Question {
         this.poll = poll;
     }
 
-    public String getAllowedChoices() {
-        return allowedChoices;
+    public Integer getMaxVoterChoices() {
+        return maxVoterChoices;
     }
 
-    public void setAllowedChoices(String allowedChoices) {
-        this.allowedChoices = allowedChoices;
+    public void setMaxVoterChoices(Integer maxVoterChoices) {
+        this.maxVoterChoices = maxVoterChoices;
+    }
+
+    public Integer getMinVoterChoices() {
+        return minVoterChoices;
+    }
+
+    public void setMinVoterChoices(Integer minVoterChoices) {
+        this.minVoterChoices = minVoterChoices;
     }
 
     public String getQuestionText() {

@@ -14,38 +14,43 @@ public class Poll {
     @Column(name = "id", nullable = false)
     private String id;
 
-    @Column(name = "creator", nullable = false)
+    @Column(name = "creator_id", nullable = false)
     private String creator;
+
+    @Column(name = "creator_name", nullable = false)
+    private String creatorName;
 
     @Column(name = "caption")
     private String caption;
 
-    @Column(name = "pollText")
+    @Column(name = "poll_text")
     private String pollText;
 
-    @Column(name = "birthTime", updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private LocalDateTime birthTime;
+    @Column(name = "birth_time", updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private LocalDateTime birthTime = LocalDateTime.now();
 
-    @Column(name = "closeTime")
+    @Column(name = "close_time")
     private LocalDateTime closeTime;
 
-    @Column(name = "open", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private Boolean open = false;
+    @Column(name = "open", nullable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
+    private Boolean open = true;
 
-    @Column(name = "showResults", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
+    @Column(name = "show_results", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean showResults = false;
 
     @Column(name = "publicity", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private Boolean publicity = true;
+    private Boolean publicity = false;
 
-    @Column(name = "platformOnly", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
+    @Column(name = "platform_only", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean platformOnly = false;
 
-    @Column(name = "voterCount", nullable = false, columnDefinition = "INT DEFAULT 0")
-    private Integer voterCount;
+    @Column(name = "voter_count", nullable = false, columnDefinition = "INT DEFAULT 0")
+    private Integer voterCount = 0;
 
     @OneToMany(mappedBy = "poll", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Question> questions;
+
+    public Poll(){}
 
     public String getId() {
         return id;
@@ -61,6 +66,14 @@ public class Poll {
 
     public void setCreator(String creator) {
         this.creator = creator;
+    }
+
+    public String getCreatorName() {
+        return creatorName;
+    }
+
+    public void setCreatorName(String creatorName) {
+        this.creatorName = creatorName;
     }
 
     public String getCaption() {

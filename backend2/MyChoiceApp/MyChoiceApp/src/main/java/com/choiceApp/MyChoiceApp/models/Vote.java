@@ -9,20 +9,27 @@ import java.util.List;
 @Table(name = "vote")
 public class Vote {
 
-    @Column(name = "userId", nullable = false)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Integer id;
+
+    @Column(name = "user_id", nullable = false)
     private String userId;
 
     @ManyToOne
-    @JoinColumn(name = "pollId", nullable = false)
+    @JoinColumn(name = "poll_id", nullable = false)
     private Poll poll;
 
     @ManyToOne
-    @JoinColumn(name = "questionId", nullable = false)
+    @JoinColumn(name = "question_id", nullable = false)
     private Question question;
 
     @ManyToOne
-    @JoinColumn(name = "choiceId", nullable = false)
+    @JoinColumn(name = "choice_id", nullable = false)
     private Choice choice;
+
+    public Vote(){}
 
     public String getUserId() {
         return userId;

@@ -12,14 +12,16 @@ public class Choice {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "questionId", nullable = false)
+    @JoinColumn(name = "question_id", nullable = false)
     private Question question;
 
-    @Column(name = "choiceText", nullable = false)
+    @Column(name = "choice_text", nullable = false)
     private String choiceText;
 
-    @Column(name = "votesCount", nullable = false, columnDefinition = "INT DEFAULT 0")
-    private Integer votesCount;
+    @Column(name = "votes_count", nullable = false, columnDefinition = "INT DEFAULT 0")
+    private Integer votesCount = 0;
+
+    public Choice(){}
 
     public Integer getId() {
         return id;
