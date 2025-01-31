@@ -15,14 +15,17 @@ public interface PollRepository extends JpaRepository<Poll, String> {
     @Query(value = "SELECT * FROM poll WHERE publicity = TRUE ORDER BY birth_time DESC LIMIT 10 OFFSET :loadedPolls", nativeQuery = true)
     List<Poll> customPageFindPolls(@Param("loadedPolls") int loadedPolls);
 
-    @Query(value = "SELECT * FROM poll WHERE poll.id IN (SELECT DISTINCT poll_id FROM vote WHERE vote.userId = :userId)", nativeQuery = true)
+    @Query(value = "SELECT * FROM poll WHERE poll.id IN (SELECT DISTINCT poll_id FROM vote WHERE vote.user_id = :userId)", nativeQuery = true)
     List<Poll> customFindPollsVotedByUser(@Param("userId") String userId);
 
     List<Poll> findByCreator(String creator);
 
+    @Query(value = "SELECT creator_id FROM poll WHERE id = :pollId", nativeQuery = true)
+    String customFindOwnerOfPoll(@Param("pollId") String pollId);
+
     Optional<Poll> findById(String id);
 
-    @Query(value = "SELECT showResults FROM poll WHERE id = :pollId", nativeQuery = true)
-    Boolean showResults(@Param("pollId") String pollId);
+//    @Query(value = "SELECT showResults FROM poll WHERE id = :pollId", nativeQuery = true)
+//    Boolean showResults(@Param("pollId") String pollId);
 }
 

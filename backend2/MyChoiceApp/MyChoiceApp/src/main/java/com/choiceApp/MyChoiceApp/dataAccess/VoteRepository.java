@@ -10,8 +10,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface VoteRepository extends JpaRepository<Vote, String> {
+public interface VoteRepository extends JpaRepository<Vote, Integer> {
 
-    public List<Vote> findByUserId(String userId);
+    @Query(value = "SELECT choice_id FROM vote WHERE user_id = :userId AND poll_id = :pollId ", nativeQuery = true)
+    List<Integer> checkVote(@Param("userId") String userId, @Param("pollId") String pollId);
+
+    @Query(value = "SELECT choice_id FROM vote WHERE user_id = :userId AND poll_id = :pollId AND question_id = :questionId", nativeQuery = true)
+    List<Integer> checkVotesForQuestion(@Param("userId") String userId, @Param("pollId") String pollId, @Param("questionId") Integer questionId);
 
 }
