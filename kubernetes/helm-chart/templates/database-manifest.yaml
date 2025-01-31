@@ -48,7 +48,6 @@ spec:
         - name: {{ .Values.db.volumes.name }}
           persistentVolumeClaim:
             claimName: {{ .Values.app.pvc.name }}
-
         - name: init-db-scripts
           configMap:
             name: init-db-configmap

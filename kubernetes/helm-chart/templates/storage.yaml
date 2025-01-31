@@ -12,17 +12,17 @@ allowVolumeExpansion: {{ .Values.storageClass.allowVolumeExpansion }}
 
 ---
 
-# apiVersion: v1
-# kind: PersistentVolumeClaim
-# metadata:
-#   name: {{ .Values.app.pvc.name }}
-# spec:
-#   storageClassName: {{ .Values.storageClass.name }}
-#   accessModes:
-#     - ReadWriteOnce
-#   resources:
-#     requests:
-#       storage: {{ .Values.app.pvc.size }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Values.app.pvc.name }}
+spec:
+  storageClassName: {{ .Values.storageClass.name }}
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.app.pvc.size }}
 
 ---
 
