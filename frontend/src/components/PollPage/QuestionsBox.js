@@ -30,9 +30,9 @@ export default function QuestionsBox({ poll, id, token }) {
 
     }, []);
 
-    useEffect(() => {
-        console.log("FINAL DATA: ", selectedChoices);
-    }, [selectedChoices]);
+    // useEffect(() => {
+    //     console.log("FINAL DATA: ", selectedChoices);
+    // }, [selectedChoices]);
 
 
     const castVote = async (vote) => { 
