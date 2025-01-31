@@ -86,6 +86,9 @@ keycloak:
   env:
     realmName: votaroRealm
     dburl: keycloak-db-service
+    frontendClientId: frontend
+    backendClientId: backend
+    backendSecret: what
   command:
     - /opt/keycloak/bin/kc.sh
   args:

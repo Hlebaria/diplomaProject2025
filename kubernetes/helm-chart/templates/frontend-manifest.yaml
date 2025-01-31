@@ -21,6 +21,12 @@ spec:
           env:
             - name: REACT_APP_BACKEND_URL
               value: {{ .Values.frontend.container.env.backendUrl }}
+            - name: REACT_APP_KEYCLOAK_URL
+              value: {{ .Values.ingress.hostname }}
+            - name: REACT_APP_KEYCLOAK_REALM
+              value: {{ .Values.keycloak.env.realmName }}
+            - name: REACT_APP_KEYCLOAK_CLIENT_ID
+              value: {{ .Values.keycloak.env.frontendClientId }}
 
 ---
 apiVersion: v1
