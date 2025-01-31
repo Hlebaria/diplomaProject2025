@@ -4,16 +4,14 @@ import com.choiceApp.MyChoiceApp.dataAccess.ChoiceRepository;
 import com.choiceApp.MyChoiceApp.dataAccess.PollRepository;
 import com.choiceApp.MyChoiceApp.dataAccess.QuestionRepository;
 import com.choiceApp.MyChoiceApp.dataAccess.VoteRepository;
-import com.choiceApp.MyChoiceApp.models.Choice;
-import com.choiceApp.MyChoiceApp.models.Poll;
-import com.choiceApp.MyChoiceApp.models.Question;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.choiceApp.MyChoiceApp.models.*;
+import com.choiceApp.MyChoiceApp.models.DTOs.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class PollService extends MainService {
@@ -22,7 +20,23 @@ public class PollService extends MainService {
         super(pollRepository, questionRepository, choiceRepository, voteRepository);
     }
 
-    public Poll getFullPoll(String pollId) {
+    public ResponseEntity<Map<String, Object>> createPollCreationResponse(boolean success, String message, String id){
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", success);
+        response.put("message", message);
+        response.put("id", id);
+
+        if(success){
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        }
+        else{
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+    }
+
+    public FullPollDTO getFullPoll(String pollId) {
 
         Optional<Poll> pollOptional = pollRepository.findById(pollId);
         if (pollOptional.isEmpty()) {
@@ -30,87 +44,149 @@ public class PollService extends MainService {
         }
 
         Poll poll = pollOptional.get();
-        List<Question> questions = questionRepository.findByPollId(pollId);
+        FullPollDTO pollDTO= new FullPollDTO(poll);
 
-        for (Question question : questions) {
-            List<Choice> choices = choiceRepository.findByQuestionId(question.getId());
-            question.setChoices(choices);
+        //hide results
+        if(!poll.getShowResults()) {
+            for (FullQuestionDTO questionDTO : pollDTO.getQuestions()) {
+                for (FullChoiceDTO choiceDTO : questionDTO.getChoices()) {
+                    choiceDTO.setVotes(0);
+                }
+            }
         }
 
-        poll.setQuestions(questions);
-
-        return poll;
+        return pollDTO;
     }
 
-    public List<Poll> getPolls(int loadedPolls){
+    public ResponseEntity<List<ShortPollDTO>> getPolls(int loadedPolls){
 
         List<Poll> polls = pollRepository.customPageFindPolls(loadedPolls);
+        List<ShortPollDTO> pollsDTO = new ArrayList<>(List.of());
 
-        return polls;
+        for(Poll poll : polls){
+
+            ShortPollDTO pollDTO = new ShortPollDTO(poll);
+            pollsDTO.add(pollDTO);
+
+        }
+
+        return ResponseEntity.ok(pollsDTO);
 
     }
 
-    public String createPoll (Poll poll, String token) throws IOException {
+    public ResponseEntity<Map<String, Object>> createPoll (CreatePollDTO pollDTO, String token) throws IOException {
+
+        Poll poll = new Poll();
 
         if(!ValidToken(token)){
-            return "Invalid Token";
+            return createResponse(false, "Invalid Token");
         }
 
-        if (poll == null) {
-            throw new IllegalArgumentException("Poll cannot be null.");
+        if (pollDTO.getQuestions().isEmpty()) {
+            return createResponse(false, "Poll must have at least one question.");
         }
 
-        poll.setCreator(token);
+        List<Question> questions = new ArrayList<>(List.of());
 
-        if (poll.getQuestions() == null || poll.getQuestions().isEmpty()) {
-            throw new IllegalArgumentException("Poll must have at least one question.");
-        }
+        for (CreateQuestionDTO questionDTO : pollDTO.getQuestions()) {
 
-        for (Question question : poll.getQuestions()) {
-
-            if (question.getChoices().isEmpty()) {
-                throw new IllegalArgumentException("Question must have at least one choice.");
+            if (questionDTO.getQuestionText().isEmpty()){
+                return createResponse(false, "All questions must have text!");
             }
 
-            if (question.getChoices().size() < Integer.parseInt(question.getAllowedChoices())) {
-                throw new IllegalArgumentException("Invalid number of Choices to Question");
+            if (questionDTO.getChoiceTexts().isEmpty()) {
+                return createResponse(false, "Question must have at least one choice.");
             }
 
+            if (1 > questionDTO.getMinVotes()) {
+                return createResponse(false, "Invalid number of Minimum permitted Choices to Question");
+            }
+
+            if (questionDTO.getMinVotes() > questionDTO.getMaxVotes()) {
+                return createResponse(false, "Invalid number of Maximum Choices to Question");
+            }
+
+            if (questionDTO.getChoiceTexts().size() < questionDTO.getMaxVotes()) {
+                return createResponse(false, "Invalid number of Choices to Question");
+            }
+
+            Question question = new Question();
+
+            List<Choice> choices = new ArrayList<>(List.of());
+
+            for (String choiceText : questionDTO.getChoiceTexts()){
+
+                if(choiceText.isEmpty()){
+                    return createResponse(false, "All options must have text!");
+                }
+
+                Choice choice = new Choice();
+                choice.setChoiceText(choiceText);
+                choice.setQuestion(question);
+                choices.add(choice);
+
+            }
+
+            question.setChoices(choices);
+            question.setPoll(poll);
+            question.setMinVoterChoices(questionDTO.getMinVotes());
+            question.setMaxVoterChoices(questionDTO.getMaxVotes());
+            question.setQuestionText(questionDTO.getQuestionText());
+
+            questions.add(question);
+
+        }
+
+
+        poll.setQuestions(questions);
+        poll.setId(generateUniquePollId());
+        poll.setCreator(extractUserIdFromToken(token));
+        poll.setCreatorName(extractUserNameFromToken(token));
+        poll.setCaption(pollDTO.getCaption());
+        poll.setPollText(pollDTO.getDescription());
+        poll.setCloseTime(pollDTO.getCloseTime());
+        poll.setPublicity(pollDTO.getPublicity());
+        poll.setPlatformOnly(pollDTO.getPlatformOnly());
+
+        pollRepository.save(poll);
+
+        return createPollCreationResponse(true, "Successfully Created Poll", poll.getId());
+
+    }
+
+    public ResponseEntity<Map<String, Object>> updatePoll (String pollId, Map<String, Boolean> updateFields, String token) throws IOException {
+
+
+
+        if(!ValidToken(token)){
+            return createResponse(false, "Invalid Token!");
+        }
+
+        Optional<Poll> pollOptional = pollRepository.findById(pollId);
+
+        if (pollOptional.isEmpty()) {
+            return createResponse(false, "Poll Not Found!");
+        }
+
+        Poll poll = pollOptional.get();
+
+        if(!extractUserIdFromToken(token).equals(poll.getCreator())){
+            return createResponse(false, "User doesn't own the poll to update it!");
+        }
+
+        if (updateFields.containsKey("open")) {
+            poll.setOpen(updateFields.get("open"));
+        }
+        if (updateFields.containsKey("showResults")) {
+            poll.setShowResults(updateFields.get("showResults"));
+        }
+        if (updateFields.containsKey("publicity")) {
+            poll.setPublicity(updateFields.get("publicity"));
         }
 
         pollRepository.save(poll);
 
-        return "Successfully Created Poll";
-
-    }
-
-    public String updatePoll (String pollId, Map<String, Boolean> updateFields, String token) throws IOException {
-
-        if(!ValidToken(token)){
-            return "Invalid Token";
-        }
-
-        Optional<Poll> existingPollOptional = pollRepository.findById(pollId);
-
-        if (existingPollOptional.isEmpty()) {
-            throw new RuntimeException("Poll not found with id: " + pollId);
-        }
-
-        Poll existingPoll = existingPollOptional.get();
-
-        if (updateFields.containsKey("open")) {
-            existingPoll.setOpen(updateFields.get("open"));
-        }
-        if (updateFields.containsKey("showResults")) {
-            existingPoll.setShowResults(updateFields.get("showResults"));
-        }
-        if (updateFields.containsKey("publicity")) {
-            existingPoll.setPublicity(updateFields.get("publicity"));
-        }
-
-        pollRepository.save(existingPoll);
-
-        return "Successfully Update Poll";
+        return createResponse(true, "Poll Updated!");
     }
 
 }

@@ -6,12 +6,18 @@ import com.choiceApp.MyChoiceApp.dataAccess.QuestionRepository;
 import com.choiceApp.MyChoiceApp.dataAccess.VoteRepository;
 import com.choiceApp.MyChoiceApp.models.Choice;
 import com.choiceApp.MyChoiceApp.models.Poll;
+import com.choiceApp.MyChoiceApp.models.Question;
 import com.choiceApp.MyChoiceApp.models.Vote;
+import com.choiceApp.MyChoiceApp.models.DTOs.VoteDTO;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class VoteService extends MainService {
@@ -20,57 +26,101 @@ public class VoteService extends MainService {
         super(pollRepository, questionRepository, choiceRepository, voteRepository);
     }
 
-    public String castVote (String pollId, String token, List<Integer> choices) throws IOException {
+    @Transactional
+    public ResponseEntity<Map<String, Object>> castVote (String pollId, String token, List<VoteDTO> voteDTOs) throws IOException {
 
         Optional<Poll> optionalPoll = pollRepository.findById(pollId);
 
         if(optionalPoll.isEmpty()){
-            return "Poll Not Found";
+            return createResponse(false, "Poll Not Found");
         }
 
         Poll poll = optionalPoll.get();
 
         if(!poll.getOpen()){
-            return "Poll Closed";
+            return createResponse(false, "Poll Closed");
         }
 
         if(isPollClosingTime(poll)){
             poll.setOpen(false);
             pollRepository.save(poll);
-            return "Poll Closed";
+            return createResponse(false, "Poll Closed");
         }
 
-        if(poll.getPlatformOnly()){
+        if(!ValidToken(token) && poll.getPlatformOnly()){
+            return createResponse(false,"Invalid Token");
+        }
 
-            if(!ValidToken(token)){
-                return "Invalid Token";
+        if(!token.isEmpty()) {
+            if (!voteRepository.checkVote(extractUserIdFromToken(token), pollId).isEmpty()) {
+                return createResponse(false, "User Already voted");
+            }
+        }
+
+        //increment every choice count by one
+        //create a rows to register each choice
+
+        List<Integer> votedQuestions = new java.util.ArrayList<>(List.of());
+        List<Choice> choices = new java.util.ArrayList<>(List.of());
+        List<Vote> votes = new java.util.ArrayList<>(List.of());
+
+        for (VoteDTO voteDTO : voteDTOs) {
+
+            Optional<Question> optionalQuestion = questionRepository.findById(voteDTO.getQuestionId());
+
+            if(optionalQuestion.isEmpty()){
+                return createResponse(false, "Question Not Found");
             }
 
-            //increment every choice count by one
-            //create a rows to register each choice
+            Question question = optionalQuestion.get();
 
-            for (String choiceId : choices) {
+            votedQuestions.add(question.getId());
+
+            int choiceCounter = voteDTO.getChoiceIds().size();
+
+            if(choiceCounter > question.getMaxVoterChoices() || choiceCounter < question.getMinVoterChoices()){
+                return createResponse(false, "Invalid number of choices");
+            }
+
+
+            for (Integer choiceId : voteDTO.getChoiceIds()) {
+
                 Optional<Choice> optionalChoice = choiceRepository.findById(choiceId);
+
                 if (optionalChoice.isEmpty()) {
-                    return "Choice Not Found";
+                    return createResponse(false, "Error processing choices");
                 }
 
+                //remember what to persist after iteration and checks
                 Choice choice = optionalChoice.get();
                 choice.setVotesCount(choice.getVotesCount() + 1);
-                choiceRepository.save(choice);
+                choices.add(choice);
 
-                Vote vote = new Vote();
-                vote.setPoll(poll);
-                vote.setChoice(choice);
-                vote.setUserId(extractUserIdFromToken(token));
-                voteRepository.save(vote);
+                if(!token.isEmpty()) {
+                    Vote vote = new Vote();
+                    vote.setPoll(poll);
+                    vote.setChoice(choice);
+                    vote.setQuestion(question);
+                    vote.setUserId(extractUserIdFromToken(token));
+                    votes.add(vote);
+                }
+
             }
 
         }
+
+        for(Question question : poll.getQuestions()){
+            if(!votedQuestions.contains(question.getId())) {
+                return createResponse(false, "Blank Votes");
+            }
+        }
+
+        choiceRepository.saveAll(choices);
+        voteRepository.saveAll(votes);
 
         poll.setVoterCount(poll.getVoterCount() + 1);
         pollRepository.save(poll);
 
-        return "Vote Casted Successfully";
+        return createResponse(true, "Vote Casted Successfully");
     }
 }
