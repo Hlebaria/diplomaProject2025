@@ -1,0 +1,110 @@
+.poll-box {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 2%;
+    padding: 5px 20px 20px 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.poll-caption {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+    margin-top: 0%;
+}
+
+.poll-description {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.poll-meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.edit-div{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.edit-button{
+    margin-left: auto;
+    background-color: white;
+    border-radius: 15%;
+    width: 60px;
+}
+
+.edit-button:hover{
+    background-color: #d0d0d0;
+}
+
+.edit-menu {
+    position: absolute;
+    top: 18%;
+    right: 4%;
+    width: 12%;
+    background-color: #c6c6c6;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    padding: 10px;
+}
+
+.edit-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.edit-menu li {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+}
+
+.edit-menu li:last-child {
+    border-bottom: none;
+}
+
+.edit-menu li:hover {
+    background-color: #f5f5f5;
+}
+
+.close-edit-menu {
+    background-color: transparent;
+    border: none;
+    color: black;
+    cursor: pointer;
+    text-align: center;
+    width: 100%;
+}
+
+.update-button {
+    margin: 5%;
+    padding: 8pt;
+    background-color: white;
+    width: 80%;
+    font-size: 12pt;
+    border: none;
+    border-radius: 20%;
+}
+
+.update-button:hover {
+    background-color: #ffaf5f;
+    cursor: pointer;
+}
+
+input[type="checkbox"] {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+}
