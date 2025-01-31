@@ -1,9 +1,12 @@
 package com.choiceApp.MyChoiceApp.controller;
 
+import com.choiceApp.MyChoiceApp.models.DTOs.CreatePollDTO;
+import com.choiceApp.MyChoiceApp.models.DTOs.FullPollDTO;
+import com.choiceApp.MyChoiceApp.models.DTOs.ShortPollDTO;
 import com.choiceApp.MyChoiceApp.models.Poll;
 import com.choiceApp.MyChoiceApp.service.PollService;
-import com.choiceApp.MyChoiceApp.TokenHttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -22,23 +25,23 @@ public class PollController {
     }
 
     @GetMapping
-    public List<Poll> getPolls(@RequestParam int loadedCount) {
+    public ResponseEntity<List<ShortPollDTO>> getPolls(@RequestParam int loadedCount) {
         return pollService.getPolls(loadedCount);
     }
 
     @GetMapping("/{pollId}")
-    public Poll getPollById(@PathVariable String pollId) {
+    public FullPollDTO getPollById(@PathVariable String pollId) {
         return pollService.getFullPoll(pollId);
     }
 
     @PostMapping("/create")
-    public String createPoll(@RequestBody Poll poll, @RequestHeader Map<String, String> headers) throws IOException {
+    public ResponseEntity<Map<String, Object>> createPoll(@RequestBody CreatePollDTO pollDTO, @RequestHeader Map<String, String> headers) throws IOException {
         String token = headers.get("authorization");
-        return pollService.createPoll(poll, token);
+        return pollService.createPoll(pollDTO, token);
     }
 
     @PatchMapping("/update/{pollId}")
-    public String updatePoll(@PathVariable String pollId, @RequestBody Map<String, Boolean> updateFields, @RequestHeader Map<String, String> headers) throws IOException {
+    public ResponseEntity<Map<String, Object>> updatePoll(@PathVariable String pollId, @RequestBody Map<String, Boolean> updateFields, @RequestHeader Map<String, String> headers) throws IOException {
         String token = headers.get("authorization");
         return pollService.updatePoll(pollId, updateFields, token);
     }

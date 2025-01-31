@@ -2,10 +2,13 @@ package com.choiceApp.MyChoiceApp.controller;
 
 import com.choiceApp.MyChoiceApp.TokenHttpRequest;
 import com.choiceApp.MyChoiceApp.models.Choice;
+import com.choiceApp.MyChoiceApp.models.DTOs.ShortPollDTO;
+import com.choiceApp.MyChoiceApp.models.DTOs.VoteDTO;
 import com.choiceApp.MyChoiceApp.models.Poll;
 import com.choiceApp.MyChoiceApp.service.PollService;
 import com.choiceApp.MyChoiceApp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -24,22 +27,28 @@ public class UserController {
     }
 
     @GetMapping("/polls")
-    public List<Poll> getUsersPolls(@RequestHeader Map<String, String> headers) throws IOException {
+    public ResponseEntity<List<ShortPollDTO>> getUsersPolls(@RequestHeader Map<String, String> headers) throws IOException {
         String token = headers.get("authorization");
-        return userService.getUsersPolls(token);
+        return userService.getUsersOwnedPolls(token);
     }
 
     @GetMapping("/activity")
-    public List<Poll> getUsersVotedPolls(@RequestHeader Map<String, String> headers) throws IOException {
+    public ResponseEntity<List<ShortPollDTO>> getUsersVotedPolls(@RequestHeader Map<String, String> headers) throws IOException {
         String token = headers.get("authorization");
         return userService.getUsersVotedPolls(token);
 
     }
 
-    @GetMapping("/vote/{poll.id}")
-    public List<Choice> getChoicesFromPoll(@RequestHeader Map<String, String> headers, @PathVariable String pollId) throws IOException {
+    @GetMapping("/vote/{pollId}")
+    public ResponseEntity<List<VoteDTO>> getChoicesFromPoll(@RequestHeader Map<String, String> headers, @PathVariable String pollId) throws IOException {
         String token = headers.get("authorization");
         return userService.getUserChoicesFromPoll(pollId, token);
+    }
+
+    @GetMapping("owner-check/{pollId}")
+    public Boolean isPollOwnerCheck(@PathVariable String pollId, @RequestHeader Map<String, String> headers) throws IOException {
+        String token = headers.get("authorization");
+        return userService.isOwner(pollId, token);
     }
 
 }
