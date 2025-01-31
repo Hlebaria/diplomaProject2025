@@ -1,0 +1,8 @@
+﻿apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: init-db-configmap
+  namespace: {{ .Values.namespace }}
+data:
+  db-structure.sql: |
+    {{ .Files.Get "scripts/db-structure.sql" | indent 4 }}

@@ -20,6 +20,10 @@ spec:
           volumeMounts:
             - mountPath: {{ .Values.db.container.mountPath }}
               name: {{ .Values.db.volumes.name }}
+
+            - mountPath: /docker-entrypoint-initdb.d
+              name: init-db-scripts
+
           ports:
             - containerPort: {{ .Values.db.container.port }}
           env:
@@ -44,6 +48,13 @@ spec:
         - name: {{ .Values.db.volumes.name }}
           persistentVolumeClaim:
             claimName: {{ .Values.app.pvc.name }}
+
+        - name: init-db-scripts
+          configMap:
+            name: init-db-configmap
+            items:
+              - key: db-structure.sql
+                path: db-structure.sql
 
 ---
 
