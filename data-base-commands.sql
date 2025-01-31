@@ -23,42 +23,45 @@
 
 -- CREATE TABLE poll (
 --     id TEXT PRIMARY KEY,
---     creatorId TEXT NOT NULL,
+--     creator_id TEXT NOT NULL,
+--     creator_name TEXT NOT NULL,
 --     caption TEXT,
---     pollText TEXT,
---     birthTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
---     closeTime TIMESTAMP,
---     open BOOLEAN DEFAULT FALSE,
---     showResults BOOLEAN DEFAULT FALSE,
+--     poll_text TEXT,
+--     birth_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--     close_time TIMESTAMP,
+--     open BOOLEAN DEFAULT TRUE,
+--     show_results BOOLEAN DEFAULT FALSE,
 --     publicity BOOLEAN DEFAULT FALSE,
---     platformOnly BOOLEAN DEFAULT TRUE,
---     voterCount INT DEFAULT 0
+--     platform_only BOOLEAN DEFAULT TRUE,
+--     voter_count INT DEFAULT 0
 -- );
 
 -- CREATE TABLE question (
---     id INT PRIMARY KEY NOT NULL,
---     pollId TEXT NOT NULL,
---     allowedChoices INT NOT NULL,
---     questionText TEXT NOT NULL,
---     FOREIGN KEY (pollId) REFERENCES poll (id) ON DELETE CASCADE
+--     id SERIAL PRIMARY KEY NOT NULL,
+--     poll_id TEXT NOT NULL,
+--     max_voter_choices INT NOT NULL,
+--     min_voter_choices INT NOT NULL,
+--     question_text TEXT NOT NULL,
+--     FOREIGN KEY (poll_id) REFERENCES poll (id) ON DELETE CASCADE
 -- );
 
 -- CREATE TABLE choice (
---     id INT PRIMARY KEY NOT NULL,
---     questionId INT NOT NULL,
---     choiceText TEXT NOT NULL,
---     votesCount INT DEFAULT 0,
---     FOREIGN KEY (questionId) REFERENCES question (id) ON DELETE CASCADE
+--     id SERIAL PRIMARY KEY NOT NULL,
+--     question_id INT NOT NULL,
+--     choice_text TEXT NOT NULL,
+--     votes_count INT DEFAULT 0,
+--     FOREIGN KEY (question_id) REFERENCES question (id) ON DELETE CASCADE
 -- );
 
 -- CREATE TABLE vote (
---     userId TEXT NOT NULL,
---     pollId TEXT NOT NULL,
---     questionId INT NOT NULL,
---     choiceId INT NOT NULL,
---     FOREIGN KEY (pollId) REFERENCES poll (id) ON DELETE CASCADE,
---     FOREIGN KEY (questionId) REFERENCES question (id) ON DELETE CASCADE,
---     FOREIGN KEY (choiceId) REFERENCES choice (id) ON DELETE CASCADE
+--     id SERIAL PRIMARY KEY NOT NULL,
+--     user_id TEXT NOT NULL,
+--     poll_id TEXT NOT NULL,
+--     question_id INT NOT NULL,
+--     choice_id INT NOT NULL,
+--     FOREIGN KEY (poll_id) REFERENCES poll (id) ON DELETE CASCADE,
+--     FOREIGN KEY (question_id) REFERENCES question (id) ON DELETE CASCADE,
+--     FOREIGN KEY (choice_id) REFERENCES choice (id) ON DELETE CASCADE
 -- );
 
 -- DON'T NEED THIS
@@ -69,15 +72,18 @@
 --     FOREIGN KEY (pollId) REFERENCES poll (id) ON DELETE CASCADE
 -- );
 
-
 Select * from poll;
 Select * from question;
 Select * from choice;
 Select * from vote;
 
--- drop table poll;
--- drop table question;
--- drop table choice;
 -- drop table vote;
+-- drop table choice;
+-- drop table question;
+-- drop table poll;
+
+-- SELECT choice_id FROM vote WHERE user_id = 'e1412540-40fc-41e7-b46e-86f1e20fb195' AND poll_id = 'PuHbvYamJ_-0OHTuBcien'
+
+-- SELECT * FROM poll WHERE publicity = TRUE ORDER BY birth_time DESC LIMIT 5 OFFSET 0;
 
 
