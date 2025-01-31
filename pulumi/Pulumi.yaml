@@ -107,7 +107,7 @@ resources:
         - ${subnet2.id}
       instanceTypes: ["t3.medium"]
       scalingConfig:
-        desiredSize: 2
+        desiredSize: 3
         minSize: 1
         maxSize: 3
 
