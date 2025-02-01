@@ -1,4 +1,3 @@
-import axios from 'axios';
 
 // dev / prod usecase variable injection
 const API_URL = (window.REACT_APP_BACKEND_URL ||  'http://localhost:5000') + '/api';
@@ -10,7 +9,7 @@ export const fetchHelloMessage = async (token) => {
     }
     
     try {
-        const response = await axios.get(`${API_URL}/hello`, {
+        const response = await fetch(`${API_URL}/hello`, {
             headers: {
                 'Authorization': token
             }
