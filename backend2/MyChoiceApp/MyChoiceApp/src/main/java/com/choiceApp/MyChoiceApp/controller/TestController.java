@@ -15,8 +15,8 @@ public class TestController {
     public String sayHello(@RequestHeader Map<String, String> headers) throws IOException {
         String token = headers.get("authorization");
 
-        if(token != null){
-            if (!token.isEmpty() & TokenHttpRequest.sendKeycloakPOST(token)) {
+        if(!token.isEmpty()){
+            if (TokenHttpRequest.sendKeycloakPOST(token)) {
                 return "Token is valid!";
             }
             return "Token is NOT valid!";
