@@ -27,8 +27,13 @@ context.kcOptions = {
 context.kc = new Keycloak(context.kcOptions);
 
 const initKeycloak = async () => {
+
+    const authenticated = await context.kc.init({
+        onLoad: "check-sso",
+        checkLoginIframe: false,
+        pkceMethod: "S256"
+    });
     
-    const authenticated = await context.kc.init();
 
     if (authenticated) {
         const userInfo = await context.kc.loadUserInfo();
