@@ -88,7 +88,7 @@ keycloak:
     dburl: keycloak-db-service
     frontendClientId: frontend
     backendClientId: backend
-    backendSecret: what
+    backendSecret: HQNfU6m9U12a9TavdgdaDQvX2lVKGCkt
   command:
     - /opt/keycloak/bin/kc.sh
   args:
