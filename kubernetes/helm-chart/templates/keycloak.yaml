@@ -62,6 +62,8 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.keycloak.secret.name }}
                   key: KC_ADMIN_PASSWORD
+            - name: KEYCLOAK_LOGLEVEL
+              value: "debug"
       volumes:
       - name: {{ .Values.keycloak.volumes.name }}
         persistentVolumeClaim:
