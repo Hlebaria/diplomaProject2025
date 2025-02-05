@@ -1,5 +1,5 @@
 db:
-  kind: Deployment
+  kind: StatefulSet
   name: postgres-db
   controllerLabel: postgres
   label: postgres
@@ -96,7 +96,7 @@ keycloak:
     - --verbose
 
 keycloakDatabase:
-  kind: Deployment
+  kind: StatefulSet
   name: keycloak-db
   controllerLabel: keycloakDB
   label: keycloak-db
