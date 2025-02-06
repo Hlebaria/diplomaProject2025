@@ -13,6 +13,8 @@ prologue-job:
   stage: runner_test
   script:
     - echo "Runner is starting . . ."
+  tags:
+    - ci-shared
 
 compile-and-test-backend:
   stage: test
@@ -22,6 +24,8 @@ compile-and-test-backend:
   script:
     - cd backend2/MyChoiceApp/MyChoiceApp
     - mvn test
+  tags:
+    - ci-shared
 
 aws-job-frontend:
   stage: update_ECR
@@ -48,6 +52,9 @@ aws-job-frontend:
   
   when: manual
 
+  tags:
+    - ci-shared
+
 aws-job-backend:
   stage: update_ECR
   image: docker:latest
@@ -72,3 +79,6 @@ aws-job-backend:
     - docker push $AWS_REGISTRY/$ECR_NAME:backend-0.0.$NEW_TAG
 
   when: manual
+
+  tags:
+    - ci-shared
