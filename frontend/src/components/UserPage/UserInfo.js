@@ -1,7 +1,5 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { pollsGetRequest } from '../../services/api.js';
+import React, { useContext } from 'react';
 import { Context } from "../../Context";
-import { useNavigate } from 'react-router-dom';
 import './UserInfo.css'
 
 export default function UserInfo() {

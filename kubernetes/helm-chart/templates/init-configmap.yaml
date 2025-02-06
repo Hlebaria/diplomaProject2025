@@ -4,5 +4,4 @@ metadata:
   name: init-db-configmap
   namespace: {{ .Values.namespace }}
 data:
-  db-structure.sql: |
-{{ .Files.Get "scripts/db-structure.sql" | indent 4 }}
+  db-structure.sql: {{ .Files.Get "scripts/db-structure.sql" | indent 4 }}
