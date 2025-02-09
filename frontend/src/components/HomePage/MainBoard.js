@@ -16,21 +16,21 @@ export default function MainBoard() {
 
     setLoading(true);
 
-        try {
+    try {
 
-        const data = await pollsGetRequest(pollCount);
+    const data = await pollsGetRequest(pollCount);
 
-        if (data.length < 10) {
-          setHasMore(false);
-        }
+    if (data.length < 10) {
+      setHasMore(false);
+    }
 
-        setPolls((prevPolls) => [...prevPolls, ...data]);
+    setPolls((prevPolls) => [...prevPolls, ...data]);
 
-      } catch (error) {
-        console.error("Failed to fetch polls:", error);
-      } finally {
-        setLoading(false);
-      }
+    } catch (error) {
+      console.error("Failed to fetch polls:", error);
+    } finally {
+      setLoading(false);
+    }
 
   }
 
