@@ -57,9 +57,6 @@ export default function PollPage() {
 
     };
 
-    if (loading) return <p>Loading...</p>;
-    if (!poll) return <p>Poll not found.</p>;
-
     return (
         <div className="poll-container">
             {loading && <p>Loading...</p>}
