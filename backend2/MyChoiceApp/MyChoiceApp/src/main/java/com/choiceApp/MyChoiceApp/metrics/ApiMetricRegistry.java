@@ -36,10 +36,14 @@ public class ApiMetricRegistry extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
         } finally {
 
-            sample.stop(registry.timer("http_request_duration_seconds", "path", path, "method", request.getMethod()));
+            sample.stop(registry.timer
+                    ("http_request_duration_seconds", "path", path, "method", request.getMethod())
+            );
 
             // Count status codes
-            registry.counter("http_response_status", "status", String.valueOf(response.getStatus())).increment();
+            registry.counter
+                    ("http_response_status", "status", String.valueOf(response.getStatus()))
+                    .increment();
         }
 
     }

@@ -19,8 +19,6 @@ import java.util.List;
 @Component
 public class TokenHttpRequest {
 
-    //to automate injected variables like KEYCLOAK_REALM
-    //injected varables can't be mapped to statis fields
     private static CustomInjectedVariables vars;
 
     @Autowired
