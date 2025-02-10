@@ -57,10 +57,11 @@ export default function PollPage() {
 
     };
 
+    if (loading) return <p>Loading...</p>;
+    if (!poll) return <p>Poll not found.</p>;
+
     return (
         <div className="poll-container">
-            {loading && <p>Loading...</p>}
-            {!poll && <p>Poll not found.</p>}
             <PollInfoBox poll={poll} id={id} token={context.kc.token} updatePoll={updatePoll}/>
             <QuestionsBox poll={poll} id={id} token={context.kc.token}/>
         </div>
