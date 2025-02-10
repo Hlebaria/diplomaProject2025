@@ -1,0 +1,130 @@
+/* QuestionBox.css */
+.question-box {
+    flex: 2;
+    background-color: #f0f0f0;
+    padding: 2%;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 500pt;
+}
+
+.question-item {
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.question-container {
+    margin-bottom: 10px;
+}
+
+.choice input {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.question-box-button {
+    background-color: #51a5ff;
+    color: rgb(0, 0, 0);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+input {
+    width: 95%;
+    height: 12px;
+    resize: none;
+    padding: 8px;
+    margin: 1%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.question-textarea {
+    width: 95%;
+    height: 70px;
+    resize: none;
+    padding: 8px;
+    margin: 1%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.question-box-button:hover {
+    background-color: #4287d0;
+}
+
+.question-box-button:active {
+    background-color: #2f6196;
+}
+
+.question-box-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.settings {
+    margin-top: 10px;
+    display: flex;
+    gap: 20px;
+  }
+  
+.choice-setting {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.choices-container {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.choice input {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.spinner {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.spinner .question-box-button {
+    background-color: #ddd;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 4px;
+}
+
+.spinner .question-box-button:hover {
+    background-color: #ccc;
+}
+
+.spinner span {
+    display: inline-block;
+    width: 30px;
+    text-align: center;
+    font-size: 16px;
+}
+  

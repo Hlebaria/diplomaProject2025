@@ -1,0 +1,18 @@
+.welcome-info {
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    background-color: white;
+    margin: 70px;
+    margin-top: 140px;
+    color: black;
+    padding-left: 12%;
+}
+
+.top-text {
+    font-size: 38px;
+}
+
+.bottom-text {
+    font-size: 28px;
+}

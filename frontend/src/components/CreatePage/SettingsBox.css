@@ -1,0 +1,52 @@
+.settings-box {
+    flex: 1;
+    background-color: #f0f0f0;
+    padding: 3%;
+    border-radius: 5%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-height: 440pt;
+    width: 350pt;
+}
+  
+label {
+    display: block;
+    margin-bottom: 10px;
+}
+  
+.clickable-options {
+    margin-top: 20px;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.create-button {
+    margin-top: 40px;
+    width: 100%;
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.create-button:hover {
+    background-color: #5aa1ec;
+}
+
+.create-button:active {
+    background-color: #2069b3;
+}
+
+.settings-textarea {
+    width: 95%;
+    resize: none;
+    padding: 8px;
+    margin: 1%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}

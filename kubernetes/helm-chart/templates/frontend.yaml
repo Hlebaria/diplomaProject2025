@@ -1,16 +1,16 @@
 ﻿apiVersion: apps/v1
 kind: {{ .Values.frontend.kind }}
 metadata:
-  name: frontend
+  name: {{ .Values.frontend.name }}
 spec:
   replicas: {{ .Values.frontend.replicas }}
   selector:
     matchLabels:
-      app: frontend
+      app: {{ .Values.frontend.label }}
   template:
     metadata:
       labels:
-        app: frontend
+        app: {{ .Values.frontend.label }}
     spec:
       containers:
         - name: {{ .Values.frontend.container.name }}
@@ -19,19 +19,28 @@ spec:
           ports:
             - containerPort: {{ .Values.frontend.container.port }}
           env:
-            - name: REACT_APP_API_URL
+            - name: REACT_APP_BACKEND_URL
               value: {{ .Values.frontend.container.env.backendUrl }}
+            - name: REACT_APP_KEYCLOAK_URL
+              value: {{ .Values.ingress.hostname }}
+            - name: REACT_APP_KEYCLOAK_REALM
+              value: {{ .Values.keycloak.env.realmName }}
+            - name: REACT_APP_KEYCLOAK_CLIENT_ID
+              value: {{ .Values.keycloak.env.frontendClientId }}
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: {{ .Values.frontend.service.name }}
+  labels:
+    app: {{ .Values.frontend.label }}
 spec:
   selector:
-    app: frontend
+    app: {{ .Values.frontend.label }}
   ports:
     - protocol: TCP
       port: {{ .Values.frontend.service.port }}
       targetPort: {{ .Values.frontend.service.targetPort }}
+      name: {{ .Values.frontend.service.portName }}
   type: {{ .Values.frontend.service.type }}

@@ -20,7 +20,11 @@ services:
     env_file:
       - database.env
     environment:
-      CORS_ALLOWED_ORIGINS: http://localhost:3000
+      CORS_ALLOWED_ORIGINS: "http://localhost:3000"
+      KEYCLOAK_URL: "http://keycloak:8080"
+      KEYCLOAK_REALM: "votaroTest"
+      BACKEND_KEYCLOAK_CLIENT_ID: "backend"
+      BACKEND_KEYCLOAK_CLIENT_SECRET: "NZvfUN527Qa9NsEgD0pw6rgFW7dX6zrF"
     ports:
       - "5000:5000"
     depends_on:
@@ -33,12 +37,40 @@ services:
       context: ./frontend
       dockerfile: Dockerfile.dev
     environment:
-      REACT_APP_API_URL: http://localhost:5000
       PORT: 3000
     ports:
       - "3000:3000"
     depends_on:
       - backend
 
+  keycloak_db:
+    image: postgres:15-alpine
+    container_name: keycloak_postgres
+    env_file:
+      - keycloak.env
+    volumes:
+      - keycloak-db-data:/var/lib/postgresql/data
+    ports:
+      - "6544:5432"
+  
+  keycloak:
+    image: keycloak/keycloak:latest
+    ports:
+      - "8080:8080"
+    env_file:
+      - keycloak.env
+    environment:
+      - KEYCLOAK_FRONTEND_URL=http://localhost:8080
+    depends_on:
+      - keycloak_db
+    command: "start-dev"
+    volumes:
+      - keycloak-data:/opt/keycloak/data
+      - keycloak-logs:/opt/keycloak/logs
+
+
 volumes:
   db-data:
+  keycloak-db-data:
+  keycloak-data:
+  keycloak-logs:

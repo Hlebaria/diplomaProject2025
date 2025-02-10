@@ -35,3 +35,4 @@ build/
 ### sensitive data ###
 
 database.env
+keycloak.env

@@ -1,5 +1,8 @@
 db:
-  kind: Deployment
+  kind: StatefulSet
+  name: postgres-db
+  controllerLabel: postgres
+  label: postgres
   replicas: 1
   secret:
     name: db-secret
@@ -7,42 +10,137 @@ db:
     name: postgres-db
     image: postgres:15-alpine
     port: 5432
+    mountPath: /var/lib/postgresql/data
+  volumes:  
+    name: app-db-data
   service:
     name: db-service
     port: 5432
     targetPort: 5432
+    type: ClusterIP
+    portName: access
 
 backend:
   kind: Deployment
+  name: backend
+  label: backend
   replicas: 1
   container:
     name: backend
-    image: 722377226063.dkr.ecr.eu-central-1.amazonaws.com/dimgroz-ecr-dr:backend-latest
+    image: 722377226063.dkr.ecr.eu-central-1.amazonaws.com/dimgroz-ecr-dr:backend-0.0.v9729
     imagePullPolicy: Always
     port: 5000
   service:
     name: backend-service
     port: 5000
     targetPort: 5000
+    type: ClusterIP
+    portName: main
   cors:
     allowedOrigins: http://localhost:3000
+  monitor:
+    name: backend-monitor
+    path: /actuator/prometheus
+    interval: 43200s
+
 frontend:
   kind: Deployment
+  name: frontend
+  label: frontend
   replicas: 1
   container: 
     name: frontend
-    image: 722377226063.dkr.ecr.eu-central-1.amazonaws.com/dimgroz-ecr-dr:frontend-latest
+    image: 722377226063.dkr.ecr.eu-central-1.amazonaws.com/dimgroz-ecr-dr:frontend-0.0.v9778
     imagePullPolicy: Always
     port: 3000
     env:
-      backendUrl: "http://backend-service:5000"
+      backendUrl: https://backend-service:5000
   service:
-    type: NodePort
     name: frontend-service
     port: 3000
     targetPort: 3000
+    type: ClusterIP
+    portName: web
+
+keycloak:
+  kind: StatefulSet
+  name: keycloak
+  controllerLabel: keycloak
+  replicas: 1
+  label: keycloak
+  container: 
+    name: keycloak
+    image: keycloak/keycloak:26.1.0
+    dataMountPath: /opt/keycloak/data
+    logsMountPath: /opt/keycloak/logs
+  volumes:  
+    name: keycloak-app-data
+  service:
+    name: keycloak-service
+    port: 8080
+    targetPort: 8080
+    type: ClusterIP
+    portName: keycloak
+  secret: 
+    name: kc-secret
+  env:
+    realmName: votaroRealm
+    dburl: keycloak-db-service
+    frontendClientId: frontend
+    backendClientId: backend
+    backendSecret: HQNfU6m9U12a9TavdgdaDQvX2lVKGCkt
+  command:
+    - /opt/keycloak/bin/kc.sh
+  args:
+    - start-dev
+    - --verbose
+
+keycloakDatabase:
+  kind: StatefulSet
+  name: keycloak-db
+  controllerLabel: keycloakDB
+  label: keycloak-db
+  replicas: 1
+  container:
+    name: keycloak-db
+    image: postgres:15-alpine
+    port: 5432
+    mountPath: /var/lib/postgresql/data
+  volumes:  
+    name: keycloak-db-data
+  service:
+    name: keycloak-db-service
+    port: 5432
+    targetPort: 5432
+    type: ClusterIP
+
+storageClass:
+  name: votaro-storage-class
+  type: gp2
+  fsType: ext4
+  reclaimPolicy: Delete
+  volumeBindingMode: Immediate
+  allowVolumeExpansion: true
+app:
+  pvc:
+    name: app-pvc
+    size: 1Gi
+kc:
+  pvc:
+    name: keycloak-pvc
+    size: 1Gi
+kcDb:
+  pvc:
+    name: keycloak-db-pvc
+    size: 1Gi
+
 
 ingress:
   name: ingress
-  namespace: dev
   hostname: www.votaro.org
+
+namespace: dev
+
+monitor:
+  namespace: monitor
+  releaseLabel: prometheus

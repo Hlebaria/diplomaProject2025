@@ -1,7 +1,16 @@
 ﻿backend:
   cors:
-    allowedOrigins: http://www.votarodev.org, af4d634caa3bf41f4a24902c29759bb0-1731034313.eu-central-1.elb.amazonaws.com
+    allowedOrigins: https://www.votarodev.itgix.eu, af4d634caa3bf41f4a24902c29759bb0-1731034313.eu-central-1.elb.amazonaws.com
+  monitor:
+    name: dev-backend-monitor
+
 ingress:
   name: ingress-dev
-  namespace: dev
-  hostname: www.votarodev.org
+  hostname: www.votarodev.itgix.eu
+
+frontend:
+  container:
+    env:
+      backendUrl: https://www.votarodev.itgix.eu
+
+namespace: dev
