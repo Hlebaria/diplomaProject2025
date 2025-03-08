@@ -92,8 +92,8 @@ export default function App() {
                     <Route path="/poll/:id" element={<PollPage />} />
                     <Route path="/user" element={<UserPage />} />
                 </Routes>
-                <h1>React Frontend</h1>
-                <p>Message from backend: {message}</p>
+                {/* <h1>React Frontend</h1>
+                <p>Message from backend: {message}</p> */}
                 <Footer />
             </div>
             </Router>
