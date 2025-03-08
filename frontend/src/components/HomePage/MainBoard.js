@@ -73,7 +73,7 @@ export default function MainBoard() {
             <p className = "poll-info">
               <div><strong>Votes: </strong>{poll.voterCount} &nbsp;&nbsp;&nbsp; <strong>Active: </strong>{poll.open ? 'Yes' : 'No'}</div>
               <div><strong>Created by: </strong>&nbsp; {poll.creatorName} &nbsp; <strong>on</strong> {getDate(poll.birthTime)}</div>
-              <div><strong>Poll Closes: </strong>{poll.closeTime ? `${getDate(poll.closeTime)} at ${getHour(poll.closeTime)}` : 'Until Owner Disables Poll'}</div>
+              <div><strong>Poll Closes: </strong>{poll.closeTime ? `${getDate(poll.closeTime)} at ${getHour(poll.closeTime)} UTC` : 'Until Owner Disables Poll'}</div>
               <div>{poll.platformOnly ? 'You Need An Account To Vote' : 'Everyone Can Vote'}</div>
             </p>
           </div>
