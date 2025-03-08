@@ -48,7 +48,7 @@ public class VoteService extends MainService {
         }
 
         if(!ValidToken(token) && poll.getPlatformOnly()){
-            return createResponse(false,"Invalid Token");
+            return createResponse(false,"Invalid Account Session");
         }
 
         if(!token.isEmpty()) {
