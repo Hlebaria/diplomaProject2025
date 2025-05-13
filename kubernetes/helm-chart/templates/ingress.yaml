@@ -4,7 +4,7 @@ metadata:
   name: {{ .Values.ingress.name }}
   namespace: {{ .Values.namespace }}
 spec:
-  ingressClassName: nginx
+  ingressClassName: {{ .Values.ingress.className }}
   rules:
     - host: {{ .Values.ingress.hostname }}
       http:
