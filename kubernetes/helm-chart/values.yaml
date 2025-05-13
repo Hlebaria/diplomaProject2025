@@ -138,6 +138,7 @@ kcDb:
 ingress:
   name: ingress
   hostname: www.votaro.org
+  className: alb
 
 namespace: dev
 
