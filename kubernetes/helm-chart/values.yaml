@@ -139,6 +139,7 @@ ingress:
   name: ingress
   hostname: www.votaro.org
   className: alb
+  certificate: arn:aws:acm:eu-central-1:722377226063:certificate/8f6bdeee-aad4-485a-97f3-26767bed4a9e
 
 namespace: dev
 
