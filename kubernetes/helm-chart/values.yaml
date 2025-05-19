@@ -50,7 +50,7 @@ frontend:
   replicas: 1
   container: 
     name: frontend
-    image: 722377226063.dkr.ecr.eu-central-1.amazonaws.com/dimgroz-ecr-dr:frontend-0.0.v9946
+    image: 722377226063.dkr.ecr.eu-central-1.amazonaws.com/dimgroz-ecr-dr:frontend-0.0.v10408
     imagePullPolicy: Always
     port: 3000
     env:
