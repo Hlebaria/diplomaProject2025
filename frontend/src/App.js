@@ -19,7 +19,6 @@ import {
 let context = {};
 
 context.kcOptions = {
-    url: (window.REACT_APP_KEYCLOAK_URL || 'http://localhost:8080/'),
     realm: (window.REACT_APP_KEYCLOAK_REALM || 'votaroTest'),
     clientId: (window.REACT_APP_KEYCLOAK_CLIENT_ID || 'frontend')
 }
@@ -32,7 +31,6 @@ const initKeycloak = async () => {
         checkLoginIframe: false,
         pkceMethod: "S256"
     });
-    
 
     if (authenticated) {
         const userInfo = await context.kc.loadUserInfo();
@@ -52,7 +50,6 @@ await initKeycloak();
 export default function App() {
 
     const [message, setMessage] = useState('');
-
 
     useEffect(() => {
         const getMessage = async () => {
