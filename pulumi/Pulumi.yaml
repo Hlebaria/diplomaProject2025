@@ -56,6 +56,8 @@ resources:
       mapPublicIpOnLaunch: true
       tags:
         Name: "dimgroz-subnet1-dr"
+        kubernetes.io/cluster/dimgroz-eks-cluster-dr: "shared"
+        kubernetes.io/role/elb: "1"
 
   subnet2:
     type: aws:ec2:Subnet
@@ -66,6 +68,8 @@ resources:
       mapPublicIpOnLaunch: true
       tags:
         Name: "dimgroz-subnet2-dr"
+        kubernetes.io/cluster/dimgroz-eks-cluster-dr: "shared"
+        kubernetes.io/role/elb: "1"
 
   # ROUTING SUBNETS
   routeTableAssociation1:
@@ -108,7 +112,7 @@ resources:
       instanceTypes: ["t3.medium"]
       scalingConfig:
         desiredSize: 3
-        minSize: 1
+        minSize: 0
         maxSize: 3
 
 outputs:
