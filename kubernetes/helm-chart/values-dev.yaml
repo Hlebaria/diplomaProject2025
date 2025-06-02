@@ -1,6 +1,6 @@
 ﻿backend:
   cors:
-    allowedOrigins: https://www.votarodev.itgix.eu, af4d634caa3bf41f4a24902c29759bb0-1731034313.eu-central-1.elb.amazonaws.com
+    allowedOrigins: https://www.votarodev.itgix.eu
   monitor:
     name: dev-backend-monitor
 
