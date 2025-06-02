@@ -77,19 +77,19 @@ public abstract class MainService {
     protected boolean ValidToken(String token) throws IOException {
 
         // comment out to pass test for keycloak to debug
-//        if (token != null) {
-//
-//            return TokenHttpRequest.sendKeycloakPOST(token);
-//
-//        }
-//
-//        return false;
+        if (token != null) {
 
-        if(token.isEmpty()){
-            return false;
+            return TokenHttpRequest.sendKeycloakPOST(token);
+
         }
 
-        return true;
+        return false;
+
+//        if(token != null && !token.isEmpty()){
+//            return false;
+//        }
+//
+//        return true;
 
     }
 
