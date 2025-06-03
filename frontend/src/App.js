@@ -32,7 +32,6 @@ const initKeycloak = async () => {
         checkLoginIframe: false,
         pkceMethod: "S256"
     });
-    
 
     if (authenticated) {
         const userInfo = await context.kc.loadUserInfo();
@@ -53,10 +52,9 @@ export default function App() {
 
     const [message, setMessage] = useState('');
 
-
     useEffect(() => {
         const getMessage = async () => {
-            console.log(context.kc.token);
+            // console.log(context.kc.token);
             try {
                 const response = await fetchHelloMessage(context.kc.token);
                 setMessage(response);
@@ -92,12 +90,11 @@ export default function App() {
                     <Route path="/poll/:id" element={<PollPage />} />
                     <Route path="/user" element={<UserPage />} />
                 </Routes>
-                <h1>React Frontend</h1>
-                <p>Message from backend: {message}</p>
+                {/* <h1>React Frontend</h1>
+                <p>Message from backend: {message}</p> */}
                 <Footer />
             </div>
             </Router>
         </Context.Provider>
     );
 }
-

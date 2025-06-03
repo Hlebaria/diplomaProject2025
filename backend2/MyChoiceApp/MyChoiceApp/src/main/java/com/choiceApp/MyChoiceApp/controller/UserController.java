@@ -1,11 +1,7 @@
 package com.choiceApp.MyChoiceApp.controller;
 
-import com.choiceApp.MyChoiceApp.TokenHttpRequest;
-import com.choiceApp.MyChoiceApp.models.Choice;
 import com.choiceApp.MyChoiceApp.models.DTOs.ShortPollDTO;
 import com.choiceApp.MyChoiceApp.models.DTOs.VoteDTO;
-import com.choiceApp.MyChoiceApp.models.Poll;
-import com.choiceApp.MyChoiceApp.service.PollService;
 import com.choiceApp.MyChoiceApp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +32,6 @@ public class UserController {
     public ResponseEntity<List<ShortPollDTO>> getUsersVotedPolls(@RequestHeader Map<String, String> headers) throws IOException {
         String token = headers.get("authorization");
         return userService.getUsersVotedPolls(token);
-
     }
 
     @GetMapping("/vote/{pollId}")

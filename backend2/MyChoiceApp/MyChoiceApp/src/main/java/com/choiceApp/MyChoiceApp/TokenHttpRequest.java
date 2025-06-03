@@ -30,8 +30,8 @@ public class TokenHttpRequest {
 //        token = token.split(" ")[1]; // if there is a Bearer field
 
         HttpClient httpclient = HttpClients.createDefault();
-        HttpPost httppost = new HttpPost(vars.getKeycloakUrl() + "/realms/" + vars.getKeycloakRealm() + "/protocol/openid-connect/token/introspect");
-        System.out.println(vars.getKeycloakUrl() + "/realms/" + vars.getKeycloakRealm() + "/protocol/openid-connect/token/introspect");
+        HttpPost httppost = new HttpPost("https://" + vars.getKeycloakUrl() + "/realms/" + vars.getKeycloakRealm() + "/protocol/openid-connect/token/introspect");
+        System.out.println("https://" + vars.getKeycloakUrl() + "/realms/" + vars.getKeycloakRealm() + "/protocol/openid-connect/token/introspect");
 
         List<BasicNameValuePair> params = new ArrayList<>(3);
         params.add(new BasicNameValuePair("client_id", vars.getKeycloakClientId()));

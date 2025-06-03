@@ -44,6 +44,12 @@ public class PollService extends MainService {
         }
 
         Poll poll = pollOptional.get();
+
+        if(isPollClosingTime(poll)){
+            poll.setOpen(false);
+            pollRepository.save(poll);
+        }
+
         FullPollDTO pollDTO= new FullPollDTO(poll);
 
         //hide results
@@ -64,6 +70,11 @@ public class PollService extends MainService {
         List<ShortPollDTO> pollsDTO = new ArrayList<>(List.of());
 
         for(Poll poll : polls){
+
+            if(isPollClosingTime(poll)){
+                poll.setOpen(false);
+                pollRepository.save(poll);
+            }
 
             ShortPollDTO pollDTO = new ShortPollDTO(poll);
             pollsDTO.add(pollDTO);

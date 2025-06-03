@@ -84,6 +84,11 @@ public abstract class MainService {
         }
 
         return false;
+
+//        if(token != null && !token.isEmpty()){
+//            return false;
+//        }
+//
 //        return true;
 
     }

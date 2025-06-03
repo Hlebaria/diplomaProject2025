@@ -41,9 +41,6 @@ export default function PollPage() {
             publicity: publicity
         }
 
-        console.log(data);
-        console.log(id);
-
         try {
             const response = await pollUpdateRequest(id, data, context.kc.token);
 

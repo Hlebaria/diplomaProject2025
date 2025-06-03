@@ -35,7 +35,6 @@ export default function QuestionCreateBox({ questions, setQuestions} ) {
 
   const updateQuestionMinVotes = (index, minVotes) => {
 
-    console.log(minVotes);
     const newQuestions = [...questions];
 
     if(minVotes < 1){

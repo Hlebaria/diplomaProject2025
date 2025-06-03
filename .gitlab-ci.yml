@@ -38,7 +38,7 @@ aws-job-frontend:
     - pip install awscli
     - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_REGISTRY
   script:
-    - docker build -t app-frontend ./frontend
+    - docker build --no-cache -t app-frontend ./frontend
 
     - NEW_TAG="v$CI_PIPELINE_ID"
 
@@ -63,7 +63,7 @@ aws-job-backend:
     - pip install awscli
     - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_REGISTRY
   script:
-    - docker build -t app-backend ./backend2
+    - docker build --no-cache -t app-backend ./backend2
 
     - NEW_TAG="v$CI_PIPELINE_ID"
 

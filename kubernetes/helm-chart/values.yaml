@@ -27,7 +27,7 @@ backend:
   replicas: 1
   container:
     name: backend
-    image: 722377226063.dkr.ecr.eu-central-1.amazonaws.com/dimgroz-ecr-dr:backend-0.0.v9729
+    image: 722377226063.dkr.ecr.eu-central-1.amazonaws.com/dimgroz-ecr-dr:backend-0.0.v10510
     imagePullPolicy: Always
     port: 5000
   service:
@@ -50,7 +50,7 @@ frontend:
   replicas: 1
   container: 
     name: frontend
-    image: 722377226063.dkr.ecr.eu-central-1.amazonaws.com/dimgroz-ecr-dr:frontend-0.0.v9778
+    image: 722377226063.dkr.ecr.eu-central-1.amazonaws.com/dimgroz-ecr-dr:frontend-0.0.v10434
     imagePullPolicy: Always
     port: 3000
     env:
@@ -138,6 +138,8 @@ kcDb:
 ingress:
   name: ingress
   hostname: www.votaro.org
+  className: alb
+  certificate: arn:aws:acm:eu-central-1:722377226063:certificate/8f6bdeee-aad4-485a-97f3-26767bed4a9e
 
 namespace: dev
 

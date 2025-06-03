@@ -19,18 +19,3 @@ RUN chmod +x /usr/local/bin/entrypoint.sh
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
 EXPOSE 3000
-
-# FROM node:20
-
-# RUN npm install -g serve
-
-# COPY --from=reactbuild /app/build /app/build
-
-# COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-# RUN chmod +x /usr/local/bin/entrypoint.sh
-
-# ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
-
-# EXPOSE 3000
-
-# CMD ["serve", "-s", "build", "-l", "3000"]

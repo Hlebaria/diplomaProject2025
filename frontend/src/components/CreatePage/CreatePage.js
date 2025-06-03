@@ -16,7 +16,7 @@ export default function CreatePage() {
     const [caption, setCaption] = useState('');
     const [description, setDescription] = useState('');
     const [publicity, setPublicity] = useState(false);
-    const [permission, setPermission] = useState(false);
+    const [platformOnly, setPlatformOnly] = useState(false);
     const [closeTime, setCloseTime] = useState('');
     const [questions, setQuestions] = useState([
     { 
@@ -41,12 +41,12 @@ export default function CreatePage() {
             caption,
             description,
             publicity,
-            permission,
+            platformOnly,
             closeTime,
             questions
         };
 
-        console.log("Poll Data:", pollData);
+        // console.log("Poll Data:", pollData);
 
         try {
             const response = await pollCreateRequest(pollData, context.kc.token);
@@ -78,8 +78,8 @@ export default function CreatePage() {
                         setDescription={setDescription}
                         publicity={publicity}
                         setPublicity={setPublicity}
-                        permission={permission}
-                        setPermission={setPermission}
+                        platformOnly={platformOnly}
+                        setPlatformOnly={setPlatformOnly}
                         closeTime={closeTime}
                         setCloseTime={setCloseTime}
                         createPoll={createPoll}

@@ -14,8 +14,9 @@ export const fetchHelloMessage = async (token) => {
                 'Authorization': token
             }
         });
+        const data = await response.text();
 
-        return response.data;
+        return data;
     } catch (error) {
         console.error('Error fetching the hello message:', error);
         throw error;

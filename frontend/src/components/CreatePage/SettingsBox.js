@@ -9,8 +9,8 @@ export default function SettingsBox(
   setDescription,
   publicity,
   setPublicity,
-  permission,
-  setPermission,
+  platformOnly,
+  setPlatformOnly,
   closeTime,
   setCloseTime,
   createPoll
@@ -42,9 +42,9 @@ export default function SettingsBox(
         <label className="switch">
             <input type="checkbox" checked={publicity} onChange={() => setPublicity(!publicity)}/>
         </label>
-        <p>Voters: {permission ? 'Account Only' : 'Everyone (Prone To Duplicate Votes!)'}</p>
+        <p>Voters: {platformOnly ? 'Account Only' : 'Everyone (Prone To Duplicate Votes!)'}</p>
         <label className="switch">
-            <input type="checkbox" checked={permission} onChange={() => setPermission(!permission)}/>
+            <input type="checkbox" checked={platformOnly} onChange={() => setPlatformOnly(!platformOnly)}/>
         </label>
       </div>
       <br/>

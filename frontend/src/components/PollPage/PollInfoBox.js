@@ -92,8 +92,8 @@ export default function PollInfoBox({ poll, id, token, updatePoll }) {
                 <div>Votes: <strong>{poll.voterCount}</strong></div>
                 <div>Status: <strong>{poll.open ? 'Active' : 'Closed'}</strong></div>
                 <div>
-                    Created: <strong>{getDate(poll.birthTime)}</strong> 
-                    Closes: <strong>{poll.closeTime ? `${getDate(poll.closeTime)} at ${getHour(poll.closeTime)}` : 'Until Owner Disables Poll'}</strong>
+                    Created: <strong>{getDate(poll.birthTime)}</strong> - 
+                    Closes: <strong>{poll.closeTime ? `${getDate(poll.closeTime)} at ${getHour(poll.closeTime)} UTC` : 'Until Owner Disables Poll'}</strong>
                 </div>
                 <div>{poll.publicity ? 'Public Poll' : 'Private Poll'}</div>
                 <div>{poll.platformOnly ? 'Account Required To Vote' : 'Everyone Can Vote'}</div>
