@@ -24,8 +24,6 @@ public interface PollRepository extends JpaRepository<Poll, String> {
     String customFindOwnerOfPoll(@Param("pollId") String pollId);
 
     Optional<Poll> findById(String id);
-
-//    @Query(value = "SELECT showResults FROM poll WHERE id = :pollId", nativeQuery = true)
-//    Boolean showResults(@Param("pollId") String pollId);
+    
 }
 

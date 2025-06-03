@@ -1,13 +1,8 @@
 package com.choiceApp.MyChoiceApp.models.DTOs;
 
 import com.choiceApp.MyChoiceApp.models.Poll;
-import com.choiceApp.MyChoiceApp.models.Question;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.OneToMany;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 public class ShortPollDTO {
 
