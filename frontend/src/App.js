@@ -54,7 +54,7 @@ export default function App() {
 
     useEffect(() => {
         const getMessage = async () => {
-            console.log(context.kc.token);
+            // console.log(context.kc.token);
             try {
                 const response = await fetchHelloMessage(context.kc.token);
                 setMessage(response);

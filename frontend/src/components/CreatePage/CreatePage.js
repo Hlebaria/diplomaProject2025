@@ -46,7 +46,7 @@ export default function CreatePage() {
             questions
         };
 
-        console.log("Poll Data:", pollData);
+        // console.log("Poll Data:", pollData);
 
         try {
             const response = await pollCreateRequest(pollData, context.kc.token);
